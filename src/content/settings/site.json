@@ -10,8 +10,9 @@
   "serviceArea": "Sri Lanka",
   "siteUrl": "https://example.com",
   "socials": {
-    "facebook": "https://www.facebook.com/share/1BU2R36jBn/?mibextid=wwXIfr"
-  },
+    "instagram": null,
+    "facebook": null
+   },
   "logo": "/images/brand/ceyway-header-transparent.png",
   "footerNote": "A tropical island, a thousand stories. Travel your way with CEYWAY TRANSIT.",
   "demoMode": true
