@@ -1,0 +1,18 @@
+{
+  "name": "ceyway-transit",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 0.0.0.0",
+    "build": "npm run validate && astro build && npm run check-links",
+    "preview": "astro preview --host 0.0.0.0",
+    "astro:build": "astro build",
+    "validate": "tsx scripts/validate-content.ts",
+    "check-links": "node scripts/check-links.mjs",
+    "optimise-images": "node scripts/optimise-images.mjs",
+    "check": "astro check"
+  },
+  "dependencies": {"astro":"^5.0.0","zod":"^3.23.8"},
+  "devDependencies": {"@astrojs/check":"^0.9.4","typescript":"^5.6.3","tsx":"^4.19.0","sharp":"^0.33.5"}
+}

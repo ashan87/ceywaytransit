@@ -1,0 +1,884 @@
+# CEYWAY TRANSIT — free GitHub-authenticated editing dashboard via https://app.pagescms.org
+# The editor is separate from the public Astro website.
+media:
+  input: public/images
+  output: /images
+  rename: safe
+  extensions:
+  - png
+  - jpg
+  - jpeg
+  - webp
+content:
+- name: homepage
+  label: Homepage and business details
+  type: group
+  items:
+  - name: homepage_text
+    label: Homepage text and slideshow
+    type: file
+    path: src/content/settings/home.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+    - name: eyebrow
+      label: Small welcome text
+      type: string
+    - name: heroTitle
+      label: Main headline
+      type: string
+    - name: heroHighlight
+      label: Highlighted headline
+      type: string
+    - name: heroDescription
+      label: Welcome description
+      type: text
+    - name: heroImage
+      label: Fallback hero picture
+      type: image
+    - name: heroSlides
+      label: Rotating hero pictures
+      type: image
+      list: true
+    - name: featuredPackages
+      label: Featured package IDs
+      type: string
+      list: true
+    - name: featuredDestinations
+      label: Featured destination IDs
+      type: string
+      list: true
+    - name: sectionOrder
+      label: Homepage section order
+      type: select
+      list: true
+      options:
+        values:
+        - features
+        - destinations
+        - packages
+        - steps
+        - reviews
+        - journal
+        - cta
+    - name: seasonNote
+      label: Small hero note
+      type: string
+  - name: business
+    label: Business contact and branding
+    type: file
+    path: src/content/settings/site.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+    - name: name
+      label: Business name
+      type: string
+      required: true
+    - name: tagline
+      label: Tagline
+      type: string
+    - name: subtagline
+      label: Subtagline
+      type: string
+    - name: phone
+      label: Phone number (+94...)
+      type: string
+      required: true
+    - name: phoneDisplay
+      label: Displayed phone number
+      type: string
+      required: true
+    - name: whatsapp
+      label: WhatsApp number without +
+      type: string
+      required: true
+    - name: email
+      label: Business email
+      type: string
+      required: true
+    - name: address
+      label: Business address
+      type: text
+    - name: serviceArea
+      label: Servicearea
+      type: string
+    - name: siteUrl
+      label: Public https:// domain
+      type: string
+    - name: socials
+      label: Socials
+      type: object
+      fields:
+      - name: instagram
+        label: Instagram URL (if available)
+        type: string
+      - name: facebook
+        label: Facebook URL (if available)
+        type: string
+    - name: logo
+      label: Header logo
+      type: image
+    - name: footerNote
+      label: Footer message
+      type: text
+    - name: demoMode
+      label: Demo mode / sample-content notice
+      type: boolean
+  - name: navigation
+    label: Website menus
+    type: file
+    path: src/content/settings/navigation.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+    - name: header
+      label: Header
+      type: object
+      fields:
+      - name: label
+        label: Label
+        type: string
+      - name: href
+        label: Href
+        type: string
+      list:
+        collapsible:
+          collapsed: true
+          summary: '{index}. {title}'
+    - name: footer
+      label: Footer
+      type: object
+      fields:
+      - name: title
+        label: Title
+        type: string
+      - name: links
+        label: Links
+        type: object
+        fields:
+        - name: label
+          label: Label
+          type: string
+        - name: href
+          label: Href
+          type: string
+        list:
+          collapsible:
+            collapsed: true
+            summary: '{index}. {title}'
+      list:
+        collapsible:
+          collapsed: true
+          summary: '{index}. {title}'
+    - name: mobile
+      label: Mobile
+      type: object
+      fields:
+      - name: label
+        label: Label
+        type: string
+      - name: href
+        label: Href
+        type: string
+      - name: icon
+        label: Icon
+        type: string
+      list:
+        collapsible:
+          collapsed: true
+          summary: '{index}. {title}'
+- name: travel
+  label: Tours and destinations
+  type: group
+  items:
+  - name: packages
+    label: Tour packages
+    type: collection
+    path: src/content/packages
+    format: json
+    filename: '{fields.slug}.json'
+    view:
+      fields:
+      - title
+      - slug
+      primary: title
+    operations:
+      create: true
+      rename: false
+      delete: false
+    fields:
+    - name: id
+      label: Unique ID / slug
+      type: string
+      required: true
+      description: Must match slug and filename; do not change later.
+    - name: slug
+      label: Web URL slug
+      type: string
+      required: true
+      description: Must match filename. Choose a lowercase-hyphen slug on creation; do not change later.
+    - name: title
+      label: Package title
+      type: string
+      required: true
+    - name: summary
+      label: Short description
+      type: text
+      required: true
+    - name: image
+      label: Cover photo
+      type: image
+    - name: days
+      label: Number of days
+      type: number
+      required: true
+    - name: nights
+      label: Number of nights
+      type: number
+      required: true
+    - name: theme
+      label: Main travel theme
+      type: select
+      options:
+        values: &id001
+        - beach
+        - nature
+        - heritage
+        - honeymoon
+        - family
+        - adventure
+    - name: difficulty
+      label: Travel pace
+      type: string
+    - name: destinations
+      label: Destination IDs (must exist)
+      type: string
+      list: true
+    - name: tags
+      label: Tags
+      type: string
+      list: true
+    - name: highlights
+      label: Highlights
+      type: string
+      list: true
+    - name: priceFrom
+      label: Indicative price (leave blank for quote)
+      type: number
+    - name: currency
+      label: Currency
+      type: select
+      options:
+        values:
+        - USD
+        - LKR
+        - EUR
+        - GBP
+    - name: inclusions
+      label: Inclusions
+      type: string
+      list: true
+    - name: exclusions
+      label: Exclusions
+      type: string
+      list: true
+    - name: itinerary
+      label: Itinerary
+      type: object
+      fields:
+      - name: day
+        label: Day number
+        type: number
+      - name: title
+        label: Day title
+        type: string
+      - name: description
+        label: Day description
+        type: text
+      list:
+        collapsible:
+          collapsed: true
+          summary: '{index}. {title}'
+    - name: featured
+      label: Mark as featured
+      type: boolean
+    - name: sample
+      label: Sample only (turn off after verification)
+      type: boolean
+  - name: destinations
+    label: Destinations
+    type: collection
+    path: src/content/destinations
+    format: json
+    filename: '{fields.slug}.json'
+    view:
+      fields:
+      - title
+      - slug
+      primary: title
+    operations:
+      create: true
+      rename: false
+      delete: false
+    fields:
+    - name: id
+      label: Unique ID
+      type: string
+      description: Must match slug and filename; do not change later.
+    - name: slug
+      label: URL slug
+      type: string
+      description: Must match filename. Choose a lowercase-hyphen slug on creation; do not change later.
+    - name: title
+      label: Destination title
+      type: string
+      required: true
+    - name: region
+      label: Region
+      type: string
+    - name: shortDescription
+      label: Short description
+      type: text
+    - name: description
+      label: Full description
+      type: text
+    - name: image
+      label: Cover photo
+      type: image
+    - name: imageAlt
+      label: Photo alternative text
+      type: string
+    - name: themes
+      label: Theme IDs (beach, heritage...)
+      type: string
+      list: true
+    - name: highlights
+      label: Highlights
+      type: string
+      list: true
+    - name: bestTime
+      label: Best season / travel advice
+      type: string
+    - name: featured
+      label: Featured
+      type: boolean
+    - name: sample
+      label: Sample
+      type: boolean
+  - name: themes
+    label: Tour themes
+    type: file
+    path: src/content/taxonomy/themes.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+    - name: items
+      label: Items
+      type: object
+      fields:
+      - name: id
+        label: Id
+        type: string
+      - name: label
+        label: Label
+        type: string
+      - name: emoji
+        label: Emoji
+        type: string
+      list:
+        collapsible:
+          collapsed: true
+          summary: '{index}. {title}'
+  - name: dietary
+    label: Guest preferences
+    type: file
+    path: src/content/taxonomy/dietary.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+    - name: items
+      label: Items
+      type: object
+      fields:
+      - name: id
+        label: Id
+        type: string
+      - name: label
+        label: Label
+        type: string
+      - name: emoji
+        label: Emoji
+        type: string
+      list:
+        collapsible:
+          collapsed: true
+          summary: '{index}. {title}'
+- name: customer
+  label: Customer content
+  type: group
+  items:
+  - name: faqs
+    label: FAQs by category
+    type: collection
+    path: src/content/faqs
+    format: json
+    filename: '{fields.id}.json'
+    view:
+      fields:
+      - title
+      - id
+      primary: title
+    operations:
+      create: true
+      rename: false
+      delete: false
+    fields:
+    - name: id
+      label: Category ID
+      type: string
+      required: true
+      readonly: true
+    - name: title
+      label: Category name
+      type: string
+    - name: items
+      label: Items
+      type: object
+      fields:
+      - name: question
+        label: Question
+        type: string
+      - name: answer
+        label: Answer
+        type: text
+      list:
+        collapsible:
+          collapsed: true
+          summary: '{index}. {title}'
+  - name: reviews
+    label: Guest testimonials
+    type: file
+    path: src/content/reviews/reviews.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+    - name: disclaimer
+      label: Sample review disclaimer
+      type: text
+    - name: items
+      label: Items
+      type: object
+      fields:
+      - name: id
+        label: Review ID
+        type: string
+      - name: name
+        label: Name
+        type: string
+      - name: country
+        label: Country
+        type: string
+      - name: rating
+        label: Rating
+        type: number
+      - name: quote
+        label: Quote
+        type: text
+      - name: date
+        label: Date (optional)
+        type: string
+      - name: sourceId
+        label: Source ID
+        type: string
+      - name: verified
+        label: Verified
+        type: boolean
+      - name: photo
+        label: Guest photo (optional)
+        type: image
+      list:
+        collapsible:
+          collapsed: true
+          summary: '{index}. {title}'
+  - name: review_sources
+    label: Review platform links
+    type: file
+    path: src/content/reviews/sources.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+    - name: sources
+      label: Sources
+      type: object
+      fields:
+      - name: id
+        label: Id
+        type: string
+      - name: name
+        label: Name
+        type: string
+      - name: profileUrl
+        label: Review platform URL
+        type: string
+      - name: rating
+        label: Rating
+        type: number
+      - name: reviewCount
+        label: Reviewcount
+        type: number
+      - name: asOf
+        label: Last verified date
+        type: string
+      list:
+        collapsible:
+          collapsed: true
+          summary: '{index}. {title}'
+  - name: steps
+    label: How it works
+    type: file
+    path: src/content/how-it-works/steps.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+    - name: steps
+      label: Steps
+      type: object
+      fields:
+      - name: number
+        label: Number
+        type: number
+      - name: title
+        label: Title
+        type: string
+      - name: description
+        label: Description
+        type: text
+      - name: icon
+        label: Icon
+        type: string
+      list:
+        collapsible:
+          collapsed: true
+          summary: '{index}. {title}'
+  - name: features
+    label: Why choose us
+    type: file
+    path: src/content/why-us/features.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+    - name: features
+      label: Features
+      type: object
+      fields:
+      - name: id
+        label: Id
+        type: string
+      - name: icon
+        label: Icon
+        type: string
+      - name: title
+        label: Title
+        type: string
+      - name: description
+        label: Description
+        type: text
+      list:
+        collapsible:
+          collapsed: true
+          summary: '{index}. {title}'
+  - name: plan_wizard
+    label: Plan-your-trip form
+    type: file
+    path: src/content/forms/plan-trip.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+    - name: title
+      label: Title
+      type: string
+    - name: intro
+      label: Intro
+      type: text
+    - name: steps
+      label: Steps
+      type: object
+      fields:
+      - name: id
+        label: Id
+        type: string
+      - name: title
+        label: Title
+        type: string
+      - name: description
+        label: Description
+        type: text
+      - name: type
+        label: Type
+        type: select
+        options:
+          values:
+          - multi
+          - date
+          - number
+          - textarea
+      - name: options
+        label: Options
+        type: object
+        fields:
+        - name: label
+          label: Label
+          type: string
+        - name: value
+          label: Value
+          type: string
+        - name: emoji
+          label: Emoji
+          type: string
+        list:
+          collapsible:
+            collapsed: true
+            summary: '{index}. {title}'
+      list:
+        collapsible:
+          collapsed: true
+          summary: '{index}. {title}'
+    - name: submitLabel
+      label: Submitlabel
+      type: string
+    - name: successNote
+      label: Successnote
+      type: text
+- name: articles
+  label: Travel journal and pages
+  type: group
+  items:
+  - name: blog
+    label: Travel journal articles
+    type: collection
+    path: src/content/blog
+    format: yaml-frontmatter
+    filename: '{fields.slug}.md'
+    view:
+      fields:
+      - title
+      - slug
+      primary: title
+    operations:
+      create: true
+      rename: false
+      delete: false
+    fields:
+    - name: title
+      label: Article title
+      type: string
+      required: true
+    - name: slug
+      label: URL slug
+      type: string
+      required: true
+      description: Must match filename. Choose a lowercase-hyphen slug on creation; do not change later.
+    - name: publishedAt
+      label: Publication date
+      type: date
+      options:
+        format: yyyy-MM-dd
+    - name: authorId
+      label: Author ID
+      type: string
+    - name: theme
+      label: Theme
+      type: select
+      options:
+        values: *id001
+    - name: image
+      label: Article cover
+      type: image
+    - name: description
+      label: Article summary
+      type: text
+    - name: sample
+      label: Sample article
+      type: boolean
+    - name: body
+      label: Article text
+      type: rich-text
+  - name: pages
+    label: Information and legal pages
+    type: collection
+    path: src/content/pages
+    format: yaml-frontmatter
+    filename: '{fields.title}.md'
+    view:
+      primary: title
+      fields:
+      - title
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+    - name: title
+      label: Page heading
+      type: string
+    - name: description
+      label: SEO description
+      type: text
+    - name: body
+      label: Page content
+      type: rich-text
+  - name: authors
+    label: Blog authors
+    type: file
+    path: src/content/authors/authors.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+    - name: authors
+      label: Authors
+      type: object
+      fields:
+      - name: id
+        label: Id
+        type: string
+      - name: name
+        label: Name
+        type: string
+      - name: photo
+        label: Photo
+        type: image
+      - name: bio
+        label: Bio
+        type: text
+      - name: sample
+        label: Sample
+        type: boolean
+      list:
+        collapsible:
+          collapsed: true
+          summary: '{index}. {title}'
+- name: advanced
+  label: Advanced settings (edit with care)
+  type: group
+  items:
+  - name: statistics
+    label: Trust statistics
+    type: file
+    path: src/content/settings/stats.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+    - name: items
+      label: Items
+      type: object
+      fields:
+      - name: id
+        label: Id
+        type: string
+      - name: label
+        label: Label
+        type: string
+      - name: value
+        label: Value
+        type: number
+      - name: suffix
+        label: Suffix
+        type: string
+      - name: asOf
+        label: Verification date
+        type: string
+      - name: verified
+        label: Verified
+        type: boolean
+      list:
+        collapsible:
+          collapsed: true
+          summary: '{index}. {title}'
+    - name: note
+      label: Note
+      type: text
+  - name: currencies
+    label: Currency rates (advanced JSON)
+    type: file
+    path: src/content/settings/currencies.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+  - name: payment_methods
+    label: Payment icons
+    type: file
+    path: src/content/settings/payment-methods.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
+    fields:
+    - name: showIcons
+      label: Showicons
+      type: boolean
+    - name: methods
+      label: Methods
+      type: object
+      fields:
+      - name: name
+        label: Name
+        type: string
+      - name: icon
+        label: Icon
+        type: image
+      list:
+        collapsible:
+          collapsed: true
+          summary: '{index}. {title}'
+    - name: note
+      label: Note
+      type: text
+  - name: translations
+    label: Interface labels (advanced JSON)
+    type: file
+    path: src/content/i18n/en.json
+    format: json
+    operations:
+      create: false
+      rename: false
+      delete: false
