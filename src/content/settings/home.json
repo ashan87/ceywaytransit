@@ -3,11 +3,14 @@
   "heroTitle": "Find your happy place in Sri Lanka.",
   "heroHighlight": "Sunshine, sea breeze & stories to tell.",
   "heroDescription": "Colourful adventures, golden beaches, misty mountains, and private journeys made just for you. Your holiday starts here.",
-  "heroImage": "/images/brand/tropical-hero.svg",
+  "heroImage": "/images/ceyway-transit-journeys-beyond-borders.png",
   "heroSlides": [
-    "/images/brand/tropical-hero.svg",
-    "/images/brand/tropical-sunset.svg",
-    "/images/brand/green-hills.svg"
+    "/images/whatsapp-image-2026-10-16-at-082110-1.jpeg",
+    "/images/whatsapp-image-2026-10-16-at-082112-1.jpeg",
+    "/images/whatsapp-image-2026-10-16-at-082113-1.jpeg",
+    "/images/whatsapp-image-2026-10-16-at-082709-2.jpeg",
+    "/images/whatsapp-image-2026-10-16-at-082108.jpeg",
+    "/images/whatsapp-image-2026-10-16-at-082710.jpeg"
   ],
   "featuredPackages": [
     "tropical-escape",
