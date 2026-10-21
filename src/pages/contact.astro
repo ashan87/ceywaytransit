@@ -2,18 +2,49 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import {site} from '../lib/data';
 ---
-<BaseLayout title="Contact Us" description="Get in touch with CEYWAY TRANSIT by phone, email or WhatsApp. Send a travel enquiry from our contact page.">
- <section class="contact-page"><div class="container"><div class="section-top contact-head"><span class="eyebrow">LET'S GET IN TOUCH</span><h1>Let's start your <span class="colour-text">adventure.</span></h1><p>Questions, trip ideas or a simple hello—we'd love to hear from you.</p></div><div class="contact-form-card"><h2>Send us a message 💌</h2><p>Fill out a few details and choose WhatsApp or email. Your message opens in the app you select.</p><form id="contact-form"><div class="form-grid"><label>Full name *<input type="text" name="name" placeholder="Your name" required maxlength="90" /></label><label>Email address *<input type="email" name="email" placeholder="you@example.com" required maxlength="120" /></label></div><label>Phone number<input type="tel" name="phone" placeholder="Including country code (optional)" maxlength="30" /></label><label>Your message *<textarea name="message" rows="5" maxlength="1500" placeholder="Tell us about your dream trip…" required></textarea></label><div class="contact-form-buttons"><button type="submit" class="button button-coral" data-send="whatsapp">Send via WhatsApp ↗</button><button type="submit" class="button button-outline" data-send="email">Send via email ✉</button></div><p class="contact-note">No message is sent until you confirm in WhatsApp or your email app. Please do not include passwords or passport numbers.</p></form></div><div class="contact-cards"><a href={`tel:${site.phone}`} class="contact-mini-card"><span class="contact-icon">📞</span><strong>Call us</strong><span>{site.phoneDisplay}</span></a><a href={`mailto:${site.email}`} class="contact-mini-card"><span class="contact-icon">✉️</span><strong>Email us</strong><span>{site.email}</span></a><a href={`https://wa.me/${site.whatsapp}`} class="contact-mini-card" target="_blank" rel="noopener noreferrer"><span class="contact-icon">💬</span><strong>WhatsApp</strong><span>Let's chat about your trip</span></a></div></div></section>
+<BaseLayout title="Contact Us" description="Get in touch with CEYWAY TRANSIT for personal Sri Lanka travel enquiries.">
+ <section class="contact-page"><div class="container"><div class="section-top contact-head"><span class="eyebrow">LET'S GET IN TOUCH</span><h1>Let's start your <span class="colour-text">adventure.</span></h1><p>Questions, trip ideas or a simple hello—we'd love to hear from you.</p></div>
+  <div class="contact-form-card">
+   <h2>Send us a message 💌</h2><p>Send an enquiry to our travel team, or continue on WhatsApp.</p>
+   <form id="contact-form" novalidate>
+    <div class="form-grid"><label>Full name *<input type="text" name="name" autocomplete="name" required maxlength="100" placeholder="Your name" /></label><label>Email address *<input type="email" name="email" autocomplete="email" required maxlength="180" placeholder="you@example.com" /></label></div>
+    <label>Phone number<input type="tel" name="phone" autocomplete="tel" maxlength="40" placeholder="Including country code (optional)" /></label>
+    <label>Your message *<textarea name="message" rows="5" maxlength="1500" required placeholder="Tell us about your dream trip…"></textarea></label>
+    <input type="text" name="website" class="enquiry-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+    <label class="enquiry-consent"><input name="consent" type="checkbox" required /> I agree to CEYWAY TRANSIT using my details to respond to this enquiry. See <a href="/privacy/">Privacy Policy</a>.</label>
+    <div id="contact-turnstile" class="enquiry-turnstile"></div>
+    <p id="contact-status" class="enquiry-feedback" role="status" aria-live="polite" hidden></p>
+    <div class="contact-form-buttons"><button id="contact-save" type="submit" class="button button-coral">Send enquiry securely ↗</button><button id="contact-whatsapp" type="button" class="button button-outline">Continue on WhatsApp ↗</button></div>
+    <p class="contact-note">Online enquiries are securely stored for our team when the service is configured. WhatsApp opens separately; you must press Send there. Please do not include passport numbers or payment card details.</p>
+   </form>
+  </div>
+  <div class="contact-cards"><a href={`tel:${site.phone}`} class="contact-mini-card"><span class="contact-icon">📞</span><strong>Call us</strong><span>{site.phoneDisplay}</span></a><a href={`mailto:${site.email}`} class="contact-mini-card"><span class="contact-icon">✉️</span><strong>Email us</strong><span>{site.email}</span></a><a href={`https://wa.me/${site.whatsapp}`} class="contact-mini-card" target="_blank" rel="noopener noreferrer"><span class="contact-icon">💬</span><strong>WhatsApp</strong><span>Let's chat about your trip</span></a></div>
+ </div></section>
 </BaseLayout>
 <script>
- const form=document.getElementById('contact-form') as HTMLFormElement | null;
- let via='whatsapp';
- form?.querySelectorAll<HTMLButtonElement>('[data-send]').forEach(button=>button.addEventListener('click',()=>{via=button.dataset.send||'whatsapp';}));
- form?.addEventListener('submit',(e)=>{
-  e.preventDefault(); if(!form.checkValidity()){form.reportValidity();return}
-  const data=new FormData(form);
-  const message=`CEYWAY TRANSIT enquiry\nName: ${data.get('name')}\nEmail: ${data.get('email')}\nPhone: ${data.get('phone')||'Not provided'}\n\n${data.get('message')}`;
-  if(via==='email')window.location.href=`mailto:ceywaytransit@gmail.com?subject=${encodeURIComponent('CEYWAY TRANSIT Travel Enquiry')}&body=${encodeURIComponent(message)}`;
-  else window.open(`https://wa.me/94711332929?text=${encodeURIComponent(message)}`,'_blank','noopener,noreferrer');
- });
+ import {prepareVerification,postEnquiry,messageIn} from '../lib/enquiry-client';
+ const form=document.getElementById('contact-form') as HTMLFormElement|null;
+ if(form){
+  const status=document.getElementById('contact-status')!;
+  const submitButton=document.getElementById('contact-save') as HTMLButtonElement;
+  const security=prepareVerification(document.getElementById('contact-turnstile')!);
+  security.then(v=>{if(!v.enabled)messageIn(status,'Online enquiries are not yet enabled. Please use WhatsApp or email.',true)});
+  form.addEventListener('submit',async(event)=>{
+   event.preventDefault();if(!form.reportValidity())return;
+   const v=await security;if(!v.enabled)return messageIn(status,'Please send your enquiry through WhatsApp while the online form is being configured.',true);
+   const token=v.getToken();if(!token)return messageIn(status,'Please complete the security check first.',true);
+   const data=new FormData(form);submitButton.disabled=true;submitButton.textContent='Sending…';
+   try{
+    const result=await postEnquiry({type:'contact',name:data.get('name'),email:data.get('email'),phone:data.get('phone'),message:data.get('message'),website:data.get('website'),consent:data.get('consent')!==null,turnstileToken:token});
+    if(!result.ok)throw new Error(result.error||'Unable to save enquiry.');
+    form.reset();v.reset();messageIn(status,'Thank you! Your enquiry has been received. Our team will contact you soon.');
+   }catch(error){v.reset();messageIn(status,(error instanceof Error?error.message:'Network error.')+' You can also contact us through WhatsApp.',true)}
+   finally{submitButton.disabled=false;submitButton.textContent='Send enquiry securely ↗';}
+  });
+  document.getElementById('contact-whatsapp')?.addEventListener('click',()=>{
+   const data=new FormData(form);
+   const message=`CEYWAY TRANSIT enquiry\nName: ${data.get('name')||''}\nEmail: ${data.get('email')||''}\nPhone: ${data.get('phone')||''}\n\n${data.get('message')||''}`;
+   window.open(`https://wa.me/94711332929?text=${encodeURIComponent(message)}`,'_blank','noopener,noreferrer');
+  });
+ }
 </script>

@@ -1,6 +1,6 @@
 {
   "title": "Let’s plan something wonderful",
-  "intro": "Tell us a little about your trip and we’ll prepare a WhatsApp enquiry. No payment or server-side form submission.",
+  "intro": "Tell us a little about your trip. Send a secure enquiry to our team or continue on WhatsApp.",
   "steps": [
     {
       "id": "style",
@@ -57,6 +57,6 @@
       "options": []
     }
   ],
-  "submitLabel": "Send my trip idea via WhatsApp",
-  "successNote": "Your WhatsApp app will open with the enquiry. You must press Send there; the website does not submit it automatically."
+  "submitLabel": "Send enquiry securely",
+  "successNote": "We use your contact details only to respond to your enquiry. No online payment is required."
 }
