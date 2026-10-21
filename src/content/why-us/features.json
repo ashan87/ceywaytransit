@@ -1,0 +1,28 @@
+{
+  "features": [
+    {
+      "id": "flexible",
+      "icon": "route",
+      "title": "Your trip, your rhythm",
+      "description": "Thoughtfully flexible tour suggestions built around your interests."
+    },
+    {
+      "id": "private",
+      "icon": "car",
+      "title": "Comfort on every corner",
+      "description": "Ask about private, chauffeur-driven transport for your route."
+    },
+    {
+      "id": "island",
+      "icon": "sun",
+      "title": "All the island colours",
+      "description": "From emerald mountains to bright blue beaches and heritage gems."
+    },
+    {
+      "id": "human",
+      "icon": "heart",
+      "title": "Real conversations",
+      "description": "Enquire directly by WhatsApp or email—no confusing checkout."
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "mirissa",
+  "slug": "mirissa",
+  "title": "Mirissa & the South Coast",
+  "region": "Southern Coast",
+  "shortDescription": "Beach days, turquoise water and slow mornings.",
+  "description": "Beach days, turquoise water and slow mornings. Discover experiences at your own pace with flexible chauffeured travel and time to enjoy the little moments.",
+  "image": "/images/destinations/mirissa/cover.webp",
+  "imageAlt": "Sample destination image for Mirissa & the South Coast",
+  "themes": [
+    "beach",
+    "honeymoon",
+    "family"
+  ],
+  "highlights": [
+    "Sunset beaches",
+    "Coastal cafes",
+    "Relaxed sea views"
+  ],
+  "bestTime": "January–April (varies by coast)",
+  "featured": true,
+  "sample": true
+}

@@ -1,0 +1,23 @@
+{
+  "id": "galle",
+  "slug": "galle",
+  "title": "Galle Fort",
+  "region": "Southern Coast",
+  "shortDescription": "Colourful streets and a seaside fort full of stories.",
+  "description": "Colourful streets and a seaside fort full of stories. Discover experiences at your own pace with flexible chauffeured travel and time to enjoy the little moments.",
+  "image": "/images/destinations/galle/cover.webp",
+  "imageAlt": "Sample destination image for Galle Fort",
+  "themes": [
+    "beach",
+    "heritage",
+    "family"
+  ],
+  "highlights": [
+    "Dutch-era fort",
+    "Coastal strolls",
+    "Boutique streets"
+  ],
+  "bestTime": "December–April often drier",
+  "featured": true,
+  "sample": true
+}

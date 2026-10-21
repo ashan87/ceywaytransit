@@ -1,0 +1,33 @@
+{
+  "eyebrow": "WELCOME TO YOUR ISLAND ESCAPE",
+  "heroTitle": "Find your happy place in Sri Lanka.",
+  "heroHighlight": "Sunshine, sea breeze & stories to tell.",
+  "heroDescription": "Colourful adventures, golden beaches, misty mountains, and private journeys made just for you. Your holiday starts here.",
+  "heroImage": "/images/brand/tropical-hero.svg",
+  "heroSlides": [
+    "/images/brand/tropical-hero.svg",
+    "/images/brand/tropical-sunset.svg",
+    "/images/brand/green-hills.svg"
+  ],
+  "featuredPackages": [
+    "tropical-escape",
+    "island-highlights",
+    "hill-country-explorer"
+  ],
+  "featuredDestinations": [
+    "mirissa",
+    "sigiriya",
+    "ella",
+    "galle"
+  ],
+  "sectionOrder": [
+    "features",
+    "destinations",
+    "packages",
+    "steps",
+    "reviews",
+    "journal",
+    "cta"
+  ],
+  "seasonNote": "Open for travel enquiries • Sri Lanka"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "ella",
+  "slug": "ella",
+  "title": "Ella & the Hill Country",
+  "region": "Central Highlands",
+  "shortDescription": "Misty hills, mountain trails and unforgettable views.",
+  "description": "Misty hills, mountain trails and unforgettable views. Discover experiences at your own pace with flexible chauffeured travel and time to enjoy the little moments.",
+  "image": "/images/destinations/ella/cover.svg",
+  "imageAlt": "Sample destination image for Ella & the Hill Country",
+  "themes": [
+    "nature",
+    "adventure"
+  ],
+  "highlights": [
+    "Nine Arches Bridge",
+    "Tea hills",
+    "Scenic viewpoints"
+  ],
+  "bestTime": "January–April often popular",
+  "featured": true,
+  "sample": true
+}

@@ -1,0 +1,34 @@
+{
+  "items": [
+    {
+      "id": "beach",
+      "label": "Beach & sunshine",
+      "emoji": "🏖️"
+    },
+    {
+      "id": "nature",
+      "label": "Nature & wildlife",
+      "emoji": "🌿"
+    },
+    {
+      "id": "heritage",
+      "label": "Culture & heritage",
+      "emoji": "🏛️"
+    },
+    {
+      "id": "honeymoon",
+      "label": "Honeymoon",
+      "emoji": "💛"
+    },
+    {
+      "id": "family",
+      "label": "Family fun",
+      "emoji": "🍍"
+    },
+    {
+      "id": "adventure",
+      "label": "Adventure",
+      "emoji": "🌊"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "base": "USD",
+  "display": [
+    "USD",
+    "LKR",
+    "EUR",
+    "GBP"
+  ],
+  "rates": {
+    "USD": 1,
+    "LKR": null,
+    "EUR": null,
+    "GBP": null
+  },
+  "ratesAsOf": null,
+  "notice": "Illustrative currency settings only. Do not display converted prices until verified rates are supplied."
+}
