@@ -1,5 +1,0 @@
----
-import {getPosts} from '../../lib/data';
-const posts=getPosts().slice(0,3);
----
-<section class="section"><div class="container"><div class="section-head-row"><div><span class="eyebrow">THE CEYWAY JOURNAL</span><h2>Stories with a <span class="colour-text">sea breeze.</span></h2><p>Travel notes to get your imagination going.</p></div><a class="text-arrow" href="/blog">Visit the journal ↗</a></div><div class="journal-grid">{posts.map(post=><a href={`/blog/${post.frontmatter.slug}/`} class="journal-card"><img src={post.frontmatter.image} alt={post.frontmatter.title} loading="lazy"/><div><span class="eyebrow">SAMPLE ARTICLE · {post.frontmatter.publishedAt}</span><h3>{post.frontmatter.title}</h3><p>{post.frontmatter.description}</p><b>Read story ↗</b></div></a>)}</div></div></section>

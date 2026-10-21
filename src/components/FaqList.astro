@@ -1,7 +1,0 @@
----
-import {faqs} from '../lib/data';
-interface Props {compact?:boolean}
-const {compact=false}=Astro.props;
-const shown=compact?[{...faqs[0],items:faqs[0].items.slice(0,3)}]:faqs;
----
-<div class="faq-groups">{shown.map(group=><section class="faq-group"><h3>{group.title}</h3>{group.items.map((item)=><details class="faq-item"><summary>{item.question}<span aria-hidden="true">+</span></summary><div class="faq-answer">{item.answer}</div></details>)}</section>)}</div>

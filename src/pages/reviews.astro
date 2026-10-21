@@ -1,9 +1,0 @@
----
-import BaseLayout from '../layouts/BaseLayout.astro';
-import ReviewCard from '../components/ReviewCard.astro';
-import {reviews,reviewSources} from '../lib/data';
----
-<BaseLayout title="Guest Stories" description="CEYWAY TRANSIT sample review layout. Genuine reviews will be displayed after verification and permission.">
- <section class="page-hero page-hero-beach"><div class="container"><span class="eyebrow">SWEET LITTLE STORIES</span><h1>The best souvenirs are <em>memories.</em></h1><p>This page demonstrates how genuine guest feedback will appear.</p></div></section>
- <section class="section"><div class="container"><p class="demo-warning">{reviews.disclaimer}</p><div class="review-grid">{reviews.items.map(r=><ReviewCard review={r}/>)}</div><div class="section-top section-top-spaced"><span class="eyebrow">REVIEW PLATFORMS</span><h2>Connect your <span class="colour-text">real reviews.</span></h2><p>Links and scores are intentionally blank until verified.</p></div><div class="source-grid">{reviewSources.sources.map(s=><div class="source-card"><h3>{s.name}</h3><p>{s.profileUrl ? <a href={s.profileUrl} rel="noopener noreferrer" target="_blank">Open profile ↗</a> : 'Not connected yet'}</p><small>Review count: {s.reviewCount ?? 'Not verified'}</small></div>)}</div></div></section>
-</BaseLayout>

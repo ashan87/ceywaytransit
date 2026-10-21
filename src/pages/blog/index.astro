@@ -1,9 +1,0 @@
----
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import {getPosts} from '../../lib/data';
-const posts=getPosts();
----
-<BaseLayout title="Travel Journal" description="Demo Sri Lanka travel inspiration and island stories from CEYWAY TRANSIT.">
- <section class="page-hero page-hero-beach"><div class="container"><span class="eyebrow">NOTES FROM THE ISLAND</span><h1>Stories with a <em>sea breeze.</em></h1><p>Warm sunshine, fresh ideas and a little travel dreaming.</p></div></section>
- <section class="section"><div class="container"><p class="sample-disclaimer">These are sample blog articles, not verified destination guidance. Review and update before launch.</p><div class="journal-grid">{posts.map(post=><a href={`/blog/${post.frontmatter.slug}/`} class="journal-card"><img src={post.frontmatter.image} alt={post.frontmatter.title} loading="lazy"/><div><span class="eyebrow">DEMO STORY · {post.frontmatter.publishedAt}</span><h3>{post.frontmatter.title}</h3><p>{post.frontmatter.description}</p><b>Read story ↗</b></div></a>)}</div></div></section>
-</BaseLayout>

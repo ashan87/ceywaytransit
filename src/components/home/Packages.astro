@@ -1,6 +1,0 @@
----
-import {packages,home} from '../../lib/data';
-import PackageCard from '../PackageCard.astro';
-const picks=home.featuredPackages.map(id=>packages.find(p=>p.id===id)).filter(p=>p!==undefined);
----
-<section class="section section-mint" id="featured-tours"><div class="container"><div class="section-head-row"><div><span class="eyebrow">CEYWAY SIGNATURE JOURNEYS</span><h2>A little more <span class="colour-text">wow</span> in every day.</h2><p>Pick a starting point. We’ll make it your own.</p></div><a class="text-arrow" href="/packages">All tour ideas ↗</a></div><div class="package-grid">{picks.map(pkg=><PackageCard pkg={pkg}/>)}</div></div></section>

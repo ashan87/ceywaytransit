@@ -1,8 +1,0 @@
----
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import {destinations} from '../../lib/data';
----
-<BaseLayout title="Destinations" description="Explore Sri Lanka's colourful beaches, cultural landmarks, mountains and wildlife with CEYWAY TRANSIT.">
- <section class="page-hero page-hero-hill"><div class="container"><span class="eyebrow">ONE ISLAND, A THOUSAND STORIES</span><h1>Where will you <em>go first?</em></h1><p>Find your sunshine spot, mountain hideaway, cultural discovery or coastal favourite.</p></div></section>
- <section class="section"><div class="container"><div class="destination-list-grid">{destinations.map(d=><a href={`/destinations/${d.slug}/`} class="destination-list-card"><img src={d.image} alt={d.imageAlt} loading="lazy" /><div><span class="eyebrow">{d.region}</span><h2>{d.title}</h2><p>{d.shortDescription}</p><span class="text-arrow">Let's go ↗</span></div></a>)}</div></div></section>
-</BaseLayout>

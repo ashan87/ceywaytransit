@@ -1,6 +1,0 @@
----
-import {navigation} from '../lib/data';
----
-<nav class="mobile-bar" aria-label="Quick mobile links">
- {navigation.mobile.map(link => <a href={link.href} target={link.href.startsWith('http')?'_blank':undefined} rel={link.href.startsWith('http')?'noopener noreferrer':undefined}><span class="mobile-bar-symbol" aria-hidden="true">{link.icon==='home'?'⌂':link.icon==='compass'?'◈':link.icon==='sparkles'?'✧':'✉'}</span><span>{link.label}</span></a>)}
-</nav>

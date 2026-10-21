@@ -1,5 +1,0 @@
----
-import {destinations,home} from '../../lib/data';
-const picks=home.featuredDestinations.map(id=>destinations.find(d=>d.id===id)).filter((d)=>d!==undefined);
----
-<section class="section" id="inspiration"><div class="container"><div class="section-head-row"><div><span class="eyebrow">POSTCARDS FROM PARADISE</span><h2>So many places to <span class="colour-text">fall in love with.</span></h2><p>Choose your kind of island magic.</p></div><a class="text-arrow" href="/destinations">Explore destinations ↗</a></div><div class="destination-feature-grid">{picks.map((d,i)=><a href={`/destinations/${d.slug}/`} class:list={['destination-tile',i===0&&'destination-tile-large']}><img src={d.image} alt={d.imageAlt} loading="lazy" /><div class="destination-tile-overlay"><span>{d.region}</span><h3>{d.title}</h3><b>Explore ↗</b></div></a>)}</div></div></section>
