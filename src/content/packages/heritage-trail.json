@@ -1,12 +1,13 @@
 {
   "id": "heritage-trail",
+  "slug": "heritage-trail",
   "title": "Culture & Colour Trail",
+  "summary": "Temples, ancient cities and culture around every corner.",
+  "image": "/images/whatsapp-image-2026-10-16-at-082712-3.jpeg",
   "days": 4,
   "nights": 3,
   "theme": "heritage",
   "difficulty": "Active",
-  "image": "/images/packages/heritage-trail/cover.webp",
-  "summary": "Temples, ancient cities and culture around every corner.",
   "destinations": [
     "colombo",
     "sigiriya",
@@ -22,8 +23,6 @@
     "Local culture",
     "Ancient stories"
   ],
-  "slug": "heritage-trail",
-  "priceFrom": null,
   "currency": "USD",
   "inclusions": [
     "Private vehicle with driver (subject to quotation)",
