@@ -1,0 +1,83 @@
+{
+  "id": "island-highlights",
+  "title": "Island Highlights",
+  "days": 8,
+  "nights": 7,
+  "theme": "heritage",
+  "difficulty": "Balanced",
+  "image": "/images/packages/island-highlights/cover.webp",
+  "summary": "The iconic places, from ancient treasures to the southern sea.",
+  "destinations": [
+    "sigiriya",
+    "kandy",
+    "ella",
+    "galle"
+  ],
+  "tags": [
+    "Highlights",
+    "Culture",
+    "Scenic"
+  ],
+  "highlights": [
+    "Heritage experiences",
+    "Hill-country scenery",
+    "Beach time"
+  ],
+  "slug": "island-highlights",
+  "priceFrom": null,
+  "currency": "USD",
+  "inclusions": [
+    "Private vehicle with driver (subject to quotation)",
+    "Suggested route planning",
+    "Flexible sightseeing time"
+  ],
+  "exclusions": [
+    "Hotels unless confirmed in writing",
+    "Entry tickets",
+    "Meals unless agreed"
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Day 1: Explore at your pace",
+      "description": "A flexible travel day with suggested scenic and cultural stops. Final timings and inclusions are confirmed with your quotation."
+    },
+    {
+      "day": 2,
+      "title": "Day 2: Explore at your pace",
+      "description": "A flexible travel day with suggested scenic and cultural stops. Final timings and inclusions are confirmed with your quotation."
+    },
+    {
+      "day": 3,
+      "title": "Day 3: Explore at your pace",
+      "description": "A flexible travel day with suggested scenic and cultural stops. Final timings and inclusions are confirmed with your quotation."
+    },
+    {
+      "day": 4,
+      "title": "Day 4: Explore at your pace",
+      "description": "A flexible travel day with suggested scenic and cultural stops. Final timings and inclusions are confirmed with your quotation."
+    },
+    {
+      "day": 5,
+      "title": "Day 5: Explore at your pace",
+      "description": "A flexible travel day with suggested scenic and cultural stops. Final timings and inclusions are confirmed with your quotation."
+    },
+    {
+      "day": 6,
+      "title": "Day 6: Explore at your pace",
+      "description": "A flexible travel day with suggested scenic and cultural stops. Final timings and inclusions are confirmed with your quotation."
+    },
+    {
+      "day": 7,
+      "title": "Day 7: Explore at your pace",
+      "description": "A flexible travel day with suggested scenic and cultural stops. Final timings and inclusions are confirmed with your quotation."
+    },
+    {
+      "day": 8,
+      "title": "Day 8: Explore at your pace",
+      "description": "A flexible travel day with suggested scenic and cultural stops. Final timings and inclusions are confirmed with your quotation."
+    }
+  ],
+  "featured": true,
+  "sample": true
+}

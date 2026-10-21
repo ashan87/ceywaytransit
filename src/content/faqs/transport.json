@@ -1,0 +1,18 @@
+{
+  "id": "transport",
+  "title": "Transport & tours",
+  "items": [
+    {
+      "question": "Can you arrange airport pickups?",
+      "answer": "Airport pickup and drop-off enquiries are welcome. Availability and prices are confirmed before booking."
+    },
+    {
+      "question": "Do your packages include hotels?",
+      "answer": "Not automatically. Hotel arrangements are included only if expressly confirmed in your quotation."
+    },
+    {
+      "question": "Can we change stops during the tour?",
+      "answer": "Talk with the team about adjustments; changes depend on timing, distance, and any agreed booking terms."
+    }
+  ]
+}

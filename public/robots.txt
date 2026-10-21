@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /
+# DEMO — remove Disallow before launch and replace example.com domain

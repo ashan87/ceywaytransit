@@ -1,0 +1,28 @@
+{
+  "steps": [
+    {
+      "number": 1,
+      "title": "Dream it up",
+      "description": "Choose the places and experiences calling your name.",
+      "icon": "sun"
+    },
+    {
+      "number": 2,
+      "title": "Tell us the details",
+      "description": "Share your travel dates, group size and interests.",
+      "icon": "message"
+    },
+    {
+      "number": 3,
+      "title": "Get your plan",
+      "description": "Review a personalised quote and suggested route.",
+      "icon": "map"
+    },
+    {
+      "number": 4,
+      "title": "Let the adventure begin",
+      "description": "Travel through Sri Lanka at a comfortable pace.",
+      "icon": "palm"
+    }
+  ]
+}

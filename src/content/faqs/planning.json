@@ -1,0 +1,18 @@
+{
+  "id": "planning",
+  "title": "Planning a trip",
+  "items": [
+    {
+      "question": "Can I personalise my itinerary?",
+      "answer": "Yes. Share your preferred dates, interests and destinations, and request a custom quotation."
+    },
+    {
+      "question": "Do you offer a fixed tour price?",
+      "answer": "Not yet. Packages on this demo are ideas; actual prices and inclusions will be confirmed in writing."
+    },
+    {
+      "question": "How early should I enquire?",
+      "answer": "As early as convenient, especially during busy travel periods."
+    }
+  ]
+}
