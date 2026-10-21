@@ -1,0 +1,19 @@
+{
+  "name": "CEYWAY TRANSIT",
+  "tagline": "Make every journey a little more magical.",
+  "subtagline": "Journeys Beyond Borders",
+  "phone": "+94711332929",
+  "phoneDisplay": "+94 71 332 929",
+  "whatsapp": "94711332929",
+  "email": "ceywaytransit@gmail.com",
+  "address": "Sri Lanka (sample business address — update before launch)",
+  "serviceArea": "Sri Lanka",
+  "siteUrl": "https://example.com",
+  "socials": {
+    "instagram": null,
+    "facebook": null
+  },
+  "logo": "/images/brand/ceyway-header-transparent.png",
+  "footerNote": "A tropical island, a thousand stories. Travel your way with CEYWAY TRANSIT.",
+  "demoMode": true
+}

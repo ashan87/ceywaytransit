@@ -1,0 +1,62 @@
+{
+  "title": "Let’s plan something wonderful",
+  "intro": "Tell us a little about your trip and we’ll prepare a WhatsApp enquiry. No payment or server-side form submission.",
+  "steps": [
+    {
+      "id": "style",
+      "title": "What’s your travel mood?",
+      "description": "Pick one or more themes.",
+      "type": "multi",
+      "options": [
+        {
+          "label": "Beach bliss",
+          "value": "Beach bliss",
+          "emoji": "🏖️"
+        },
+        {
+          "label": "Culture & colour",
+          "value": "Culture & colour",
+          "emoji": "🏛️"
+        },
+        {
+          "label": "Nature & wildlife",
+          "value": "Nature & wildlife",
+          "emoji": "🌿"
+        },
+        {
+          "label": "Romantic getaway",
+          "value": "Romantic getaway",
+          "emoji": "💛"
+        },
+        {
+          "label": "Family adventure",
+          "value": "Family adventure",
+          "emoji": "🍍"
+        }
+      ]
+    },
+    {
+      "id": "date",
+      "title": "When will you visit?",
+      "description": "An approximate date is absolutely fine.",
+      "type": "date",
+      "options": []
+    },
+    {
+      "id": "people",
+      "title": "Who’s coming along?",
+      "description": "Give us your estimated number of guests.",
+      "type": "number",
+      "options": []
+    },
+    {
+      "id": "message",
+      "title": "Anything else we should know?",
+      "description": "Cities, interests, accessibility or special requests.",
+      "type": "textarea",
+      "options": []
+    }
+  ],
+  "submitLabel": "Send my trip idea via WhatsApp",
+  "successNote": "Your WhatsApp app will open with the enquiry. You must press Send there; the website does not submit it automatically."
+}

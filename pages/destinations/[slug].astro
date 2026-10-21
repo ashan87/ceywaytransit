@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PackageCard from '../../components/PackageCard.astro';
+import {destinations,packages,getTheme,waLink} from '../../lib/data';
+export function getStaticPaths(){return destinations.map(destination=>({params:{slug:destination.slug},props:{destination}}));}
+const {destination}=Astro.props;
+const matches=packages.filter(p=>p.destinations.includes(destination.id)).slice(0,3);
+---
+<BaseLayout title={destination.title} description={destination.shortDescription} image={destination.image}>
+ <section class="detail-banner"><img src={destination.image} alt={destination.imageAlt}/><div class="detail-banner-overlay"></div><div class="container detail-banner-content"><a href="/destinations" class="back-link">← All destinations</a><span class="hero-pill">🌴 {destination.region}</span><h1>{destination.title}</h1><p>{destination.shortDescription}</p></div></section>
+ <section class="section"><div class="container detail-grid"><article class="detail-body"><span class="eyebrow">A LITTLE ISLAND MAGIC</span><h2>Meet your next <span class="colour-text">happy place.</span></h2><p>{destination.description}</p><h3>Things you might love</h3><ul class="highlight-list">{destination.highlights.map(h=><li>✦ {h}</li>)}</ul><h3>Best time to explore</h3><p>{destination.bestTime}. Conditions, closures and attractions should be confirmed for your actual travel dates.</p><h3>Holiday mood</h3><div class="tag-row">{destination.themes.map(theme=><span>{getTheme(theme)}</span>)}</div></article><aside class="enquiry-panel"><span class="eyebrow">TAKE ME THERE</span><h3>Let's build your route.</h3><p>Ask about a private journey including {destination.title}.</p><a class="button button-coral button-full" href={waLink(`Hi! I would like to visit ${destination.title}. Please suggest a trip.`)} target="_blank" rel="noopener noreferrer">Enquire on WhatsApp ↗</a><a href="/plan-my-trip" class="button button-outline button-full">Plan a longer trip →</a></aside></div></section>
+ <section class="section section-mint"><div class="container"><div class="section-head-row"><div><span class="eyebrow">YOU MIGHT ALSO LIKE</span><h2>Journeys through <span class="colour-text">this region.</span></h2></div><a class="text-arrow" href="/packages">All packages ↗</a></div><div class="package-grid">{matches.map(pkg=><PackageCard pkg={pkg}/>)}</div></div></section>
+</BaseLayout>

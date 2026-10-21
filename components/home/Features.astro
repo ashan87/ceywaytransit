@@ -1,0 +1,5 @@
+---
+import {features} from '../../lib/data';
+const icons=['🌺','🚗','☀️','💬'];
+---
+<section class="section section-sand" id="why-us"><div class="container"><div class="section-top"><span class="eyebrow">NOT YOUR ORDINARY HOLIDAY</span><h2>Good vibes. <span class="colour-text">Great journeys.</span></h2><p>We believe the best island memories happen when every detail feels a little easier.</p></div><div class="feature-grid">{features.map((f,i)=><article class="feature-card"><span class="feature-icon">{icons[i%icons.length]}</span><h3>{f.title}</h3><p>{f.description}</p></article>)}</div></div></section>

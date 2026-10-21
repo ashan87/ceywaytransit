@@ -1,0 +1,28 @@
+{
+  "sources": [
+    {
+      "id": "direct",
+      "name": "Direct guest feedback (placeholder)",
+      "profileUrl": null,
+      "rating": null,
+      "reviewCount": null,
+      "asOf": null
+    },
+    {
+      "id": "google",
+      "name": "Google Reviews (connect later)",
+      "profileUrl": null,
+      "rating": null,
+      "reviewCount": null,
+      "asOf": null
+    },
+    {
+      "id": "tripadvisor",
+      "name": "Tripadvisor (connect later)",
+      "profileUrl": null,
+      "rating": null,
+      "reviewCount": null,
+      "asOf": null
+    }
+  ]
+}

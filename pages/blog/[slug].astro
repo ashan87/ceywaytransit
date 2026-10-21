@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {getPosts,authors,getTheme} from '../../lib/data';
+export function getStaticPaths(){return getPosts().map(post=>({params:{slug:post.frontmatter.slug},props:{post}}));}
+const {post}=Astro.props;
+const {frontmatter}=post;
+const Content=post.default;
+const author=authors.find(a=>a.id===frontmatter.authorId);
+---
+<BaseLayout title={frontmatter.title} description={frontmatter.description} image={frontmatter.image}>
+ <section class="blog-hero"><div class="container narrow"><a class="text-arrow" href="/blog">← Travel journal</a><span class="eyebrow">{getTheme(frontmatter.theme)} · {frontmatter.publishedAt}</span><h1>{frontmatter.title}</h1><p>{frontmatter.description}</p><span class="sample-label">Demo travel article</span></div><img src={frontmatter.image} alt={frontmatter.title}/></section>
+ <article class="section"><div class="container prose narrow"><Content /><div class="author-box"><span class="avatar">C</span><div><strong>{author?.name??'CEYWAY TRANSIT'}</strong><p>{author?.bio}</p></div></div></div></article>
+</BaseLayout>

@@ -1,0 +1,23 @@
+{
+  "id": "yala",
+  "slug": "yala",
+  "title": "Yala National Park",
+  "region": "South-East",
+  "shortDescription": "Wildlife-filled landscapes and thrilling safari drives.",
+  "description": "Wildlife-filled landscapes and thrilling safari drives. Discover experiences at your own pace with flexible chauffeured travel and time to enjoy the little moments.",
+  "image": "/images/destinations/yala/cover.svg",
+  "imageAlt": "Sample destination image for Yala National Park",
+  "themes": [
+    "nature",
+    "adventure",
+    "family"
+  ],
+  "highlights": [
+    "Jeep safari",
+    "Birdlife",
+    "Coastal wilderness"
+  ],
+  "bestTime": "Park schedules vary; confirm before booking",
+  "featured": false,
+  "sample": true
+}

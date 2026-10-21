@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {site} from '../lib/data';
+---
+<BaseLayout title="Contact Us" description="Get in touch with CEYWAY TRANSIT by phone, email or WhatsApp. Send a travel enquiry from our contact page.">
+ <section class="contact-page"><div class="container"><div class="section-top contact-head"><span class="eyebrow">LET'S GET IN TOUCH</span><h1>Let's start your <span class="colour-text">adventure.</span></h1><p>Questions, trip ideas or a simple hello—we'd love to hear from you.</p></div><div class="contact-form-card"><h2>Send us a message 💌</h2><p>Fill out a few details and choose WhatsApp or email. Your message opens in the app you select.</p><form id="contact-form"><div class="form-grid"><label>Full name *<input type="text" name="name" placeholder="Your name" required maxlength="90" /></label><label>Email address *<input type="email" name="email" placeholder="you@example.com" required maxlength="120" /></label></div><label>Phone number<input type="tel" name="phone" placeholder="Including country code (optional)" maxlength="30" /></label><label>Your message *<textarea name="message" rows="5" maxlength="1500" placeholder="Tell us about your dream trip…" required></textarea></label><div class="contact-form-buttons"><button type="submit" class="button button-coral" data-send="whatsapp">Send via WhatsApp ↗</button><button type="submit" class="button button-outline" data-send="email">Send via email ✉</button></div><p class="contact-note">No message is sent until you confirm in WhatsApp or your email app. Please do not include passwords or passport numbers.</p></form></div><div class="contact-cards"><a href={`tel:${site.phone}`} class="contact-mini-card"><span class="contact-icon">📞</span><strong>Call us</strong><span>{site.phoneDisplay}</span></a><a href={`mailto:${site.email}`} class="contact-mini-card"><span class="contact-icon">✉️</span><strong>Email us</strong><span>{site.email}</span></a><a href={`https://wa.me/${site.whatsapp}`} class="contact-mini-card" target="_blank" rel="noopener noreferrer"><span class="contact-icon">💬</span><strong>WhatsApp</strong><span>Let's chat about your trip</span></a></div></div></section>
+</BaseLayout>
+<script>
+ const form=document.getElementById('contact-form') as HTMLFormElement | null;
+ let via='whatsapp';
+ form?.querySelectorAll<HTMLButtonElement>('[data-send]').forEach(button=>button.addEventListener('click',()=>{via=button.dataset.send||'whatsapp';}));
+ form?.addEventListener('submit',(e)=>{
+  e.preventDefault(); if(!form.checkValidity()){form.reportValidity();return}
+  const data=new FormData(form);
+  const message=`CEYWAY TRANSIT enquiry\nName: ${data.get('name')}\nEmail: ${data.get('email')}\nPhone: ${data.get('phone')||'Not provided'}\n\n${data.get('message')}`;
+  if(via==='email')window.location.href=`mailto:ceywaytransit@gmail.com?subject=${encodeURIComponent('CEYWAY TRANSIT Travel Enquiry')}&body=${encodeURIComponent(message)}`;
+  else window.open(`https://wa.me/94711332929?text=${encodeURIComponent(message)}`,'_blank','noopener,noreferrer');
+ });
+</script>

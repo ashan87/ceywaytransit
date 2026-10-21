@@ -1,0 +1,43 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MobileBar from '../components/MobileBar.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import { site } from '../lib/data';
+import '../styles/tokens.css';
+import '../styles/global.css';
+interface Props { title:string; description?:string; image?:string; schema?:Record<string,unknown> }
+const { title, description = site.tagline, image = '/images/brand/tropical-hero.svg', schema } = Astro.props;
+const fullTitle = title === 'Home' ? `${site.name} | Tropical Sri Lanka Holidays` : `${title} | ${site.name}`;
+const canonical = new URL(Astro.url.pathname, site.siteUrl).toString();
+const absoluteImage = new URL(image,site.siteUrl).toString();
+const structuredData = schema ?? { '@context':'https://schema.org', '@type':'TravelAgency', name:site.name, url:site.siteUrl, telephone:site.phone, email:site.email, areaServed:'Sri Lanka', description:site.tagline };
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#04aaa5" />
+  <meta name="description" content={description} />
+  <meta name="robots" content={site.demoMode ? 'noindex, nofollow' : 'index, follow'} />
+  <link rel="canonical" href={canonical} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={absoluteImage} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <title>{fullTitle}</title>
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData).replaceAll('<','\\u003c')} />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <Header />
+  <main id="main"><slot /></main>
+  <Footer />
+  <MobileBar />
+  <WhatsAppButton />
+</body>
+</html>

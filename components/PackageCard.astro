@@ -1,0 +1,16 @@
+---
+import type { Package } from '../content/config';
+import {getTheme} from '../lib/data';
+interface Props { pkg:Package }
+const {pkg}=Astro.props;
+---
+<article class="package-card" data-theme={pkg.theme} data-days={pkg.days} data-title={pkg.title.toLowerCase()}>
+ <a href={`/packages/${pkg.slug}/`} class="package-card-image"><img src={pkg.image} alt={`Sample cover for ${pkg.title}`} loading="lazy" width="600" height="420" /><span class="card-image-chip">{getTheme(pkg.theme)}</span></a>
+ <div class="package-card-body">
+  <div class="package-info"><span>☀ {pkg.days} days / {pkg.nights} nights</span><span>✦ {pkg.difficulty}</span></div>
+  <h3><a href={`/packages/${pkg.slug}/`}>{pkg.title}</a></h3>
+  <p>{pkg.summary}</p>
+  <div class="tag-row">{pkg.tags.slice(0,3).map(t=><span>{t}</span>)}</div>
+  <div class="card-bottom"><strong>{pkg.priceFrom==null?'Custom quote':`${pkg.currency} ${pkg.priceFrom.toLocaleString()}+`}</strong><a href={`/packages/${pkg.slug}/`} aria-label={`Explore ${pkg.title}`} class="circle-link">↗</a></div>
+ </div>
+</article>
