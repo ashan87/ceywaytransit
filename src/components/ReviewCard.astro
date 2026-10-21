@@ -1,0 +1,7 @@
+---
+import type {z} from 'zod';
+import {reviewSchema} from '../content/config';
+interface Props {review:z.infer<typeof reviewSchema>}
+const {review}=Astro.props;
+---
+<article class="review-card"><div class="review-top"><span aria-label={`${review.rating} out of 5 stars`} class="review-stars">{'★'.repeat(review.rating)}</span><span class="sample-label">Demo review</span></div><p>“{review.quote}”</p><div class="review-person"><span class="avatar">{review.name.slice(0,1)}</span><div><strong>{review.name}</strong><small>{review.country} · Placeholder, not verified</small></div></div></article>

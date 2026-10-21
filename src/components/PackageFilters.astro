@@ -1,0 +1,35 @@
+---
+import { themes, en } from '../lib/data';
+---
+<div class="filters" aria-label="Filter tour packages">
+  <div class="filter-heading"><div><span class="eyebrow">FIND YOUR PERFECT FIT</span><h2>What's your travel mood?</h2></div><label class="search-wrap"><span class="sr-only">Search packages</span><input id="package-search" type="search" placeholder="Search trips…" autocomplete="off" /></label></div>
+  <div class="filter-controls" id="package-filter-buttons"><button class="filter-chip active" type="button" data-filter="all" aria-pressed="true">🌈 All adventures</button>{themes.map(t=><button type="button" class="filter-chip" data-filter={t.id} aria-pressed="false">{t.emoji} {t.label}</button>)}</div>
+  <div class="filter-footer"><span id="package-count" aria-live="polite"></span><label>Sort <select id="package-sort"><option value="featured">Featured first</option><option value="short">Shortest first</option><option value="long">Longest first</option><option value="alpha">A to Z</option></select></label></div>
+</div>
+<script>
+ const filterContainer=document.getElementById('package-filter-buttons');
+ const buttons=Array.from(document.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+ const search=document.getElementById('package-search') as HTMLInputElement | null;
+ const sort=document.getElementById('package-sort') as HTMLSelectElement | null;
+ const grid=document.getElementById('package-grid');
+ const count=document.getElementById('package-count');
+ let active='all';
+ function update(){
+  if(!grid)return;
+  const cards=Array.from(grid.querySelectorAll<HTMLElement>('.package-card'));
+  const query=(search?.value??'').trim().toLowerCase();
+  const sorted=[...cards].sort((a,b)=>{
+    const d1=Number(a.dataset.days),d2=Number(b.dataset.days);
+    if(sort?.value==='short')return d1-d2;
+    if(sort?.value==='long')return d2-d1;
+    if(sort?.value==='alpha')return (a.dataset.title??'').localeCompare(b.dataset.title??'');
+    return 0;
+  });
+  for(const card of sorted){card.hidden=!( (active==='all'||card.dataset.theme===active) && (card.dataset.title??'').includes(query) );grid.appendChild(card)}
+  const n=sorted.filter(c=>!c.hidden).length;
+  if(count)count.textContent=`${n} ${n===1?'journey':'journeys'} to explore`;
+  const empty=document.getElementById('packages-empty');if(empty)empty.hidden=n>0;
+ }
+ filterContainer?.addEventListener('click',(e)=>{const b=(e.target as HTMLElement).closest<HTMLButtonElement>('[data-filter]');if(!b)return;active=b.dataset.filter||'all';buttons.forEach(btn=>{const selected=btn===b;btn.classList.toggle('active',selected);btn.setAttribute('aria-pressed',String(selected));});update()});
+ search?.addEventListener('input',update);sort?.addEventListener('change',update);update();
+</script>
