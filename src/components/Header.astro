@@ -1,0 +1,26 @@
+---
+import { site, navigation } from '../lib/data';
+const path = Astro.url.pathname;
+---
+<div class="top-strip">
+  <div class="container top-strip-inner"><span>🌴 Hello from paradise! Your Sri Lanka adventure starts here.</span><a href={`tel:${site.phone}`}>☎ {site.phoneDisplay}</a></div>
+</div>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand-mark" href="/" aria-label="CEYWAY TRANSIT — Home"><img src={site.logo} alt="CEYWAY TRANSIT" width="245" height="65" /></a>
+    <nav class="desktop-links" aria-label="Main navigation">
+      {navigation.header.map(link => <a href={link.href} aria-current={path===link.href || (link.href!=='/' && path.startsWith(link.href+'/')) ? 'page' : undefined}>{link.label}</a>)}
+    </nav>
+    <div class="header-right"><a class="button button-mango header-cta" href="/plan-my-trip">Plan my trip <span aria-hidden="true">↗</span></a><button id="mobile-menu-btn" class="menu-button" type="button" aria-label="Open menu" aria-controls="site-mobile-menu" aria-expanded="false"><span></span><span></span><span></span></button></div>
+  </div>
+  <nav id="site-mobile-menu" class="mobile-dropdown" aria-label="Mobile navigation" hidden>
+    {navigation.header.map(link => <a href={link.href}>{link.label}</a>)}
+    <a href="/contact">Contact us</a><a class="button button-mango" href="/plan-my-trip">Let's plan your trip ↗</a>
+  </nav>
+</header>
+<script>
+  const trigger = document.getElementById('mobile-menu-btn') as HTMLButtonElement | null;
+  const menu = document.getElementById('site-mobile-menu');
+  trigger?.addEventListener('click', () => { if(!menu) return; const open = menu.hidden; menu.hidden = !open; trigger.setAttribute('aria-expanded',String(open)); trigger.setAttribute('aria-label',open?'Close menu':'Open menu'); });
+  menu?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{menu.hidden=true;trigger?.setAttribute('aria-expanded','false');}));
+</script>

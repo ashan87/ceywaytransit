@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import About from '../content/pages/about.md';
+import {features} from '../lib/data';
+---
+<BaseLayout title="About Us" description="Get to know the CEYWAY TRANSIT travel concept and its approach to personalised journeys.">
+<section class="page-hero page-hero-beach"><div class="container"><span class="eyebrow">A WARM AYUBOWAN</span><h1>Welcome to the <em>sunny side.</em></h1><p>Thoughtful trips and tropical memories made one journey at a time.</p></div></section>
+<section class="section"><div class="container about-page-grid"><div class="prose"><About/></div><div class="about-picture"><img src="/images/brand/tropical-sunset.svg" alt="Illustrated tropical Sri Lanka coastline"/><div class="about-overlap">🌴<br/>The island is calling.</div></div></div></section>
+</BaseLayout>

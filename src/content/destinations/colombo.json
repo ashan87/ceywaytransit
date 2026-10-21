@@ -1,0 +1,22 @@
+{
+  "id": "colombo",
+  "slug": "colombo",
+  "title": "Colombo",
+  "region": "Western Province",
+  "shortDescription": "A lively introduction to the island: food, culture and coast.",
+  "description": "A lively introduction to the island: food, culture and coast. Discover experiences at your own pace with flexible chauffeured travel and time to enjoy the little moments.",
+  "image": "/images/destinations/colombo/cover.webp",
+  "imageAlt": "Sample destination image for Colombo",
+  "themes": [
+    "heritage",
+    "family"
+  ],
+  "highlights": [
+    "Galle Face",
+    "Markets",
+    "Modern city scenes"
+  ],
+  "bestTime": "Year-round",
+  "featured": false,
+  "sample": true
+}

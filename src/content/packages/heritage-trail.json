@@ -1,0 +1,62 @@
+{
+  "id": "heritage-trail",
+  "title": "Culture & Colour Trail",
+  "days": 4,
+  "nights": 3,
+  "theme": "heritage",
+  "difficulty": "Active",
+  "image": "/images/packages/heritage-trail/cover.webp",
+  "summary": "Temples, ancient cities and culture around every corner.",
+  "destinations": [
+    "colombo",
+    "sigiriya",
+    "kandy"
+  ],
+  "tags": [
+    "History",
+    "Culture",
+    "Landmarks"
+  ],
+  "highlights": [
+    "Heritage landmarks",
+    "Local culture",
+    "Ancient stories"
+  ],
+  "slug": "heritage-trail",
+  "priceFrom": null,
+  "currency": "USD",
+  "inclusions": [
+    "Private vehicle with driver (subject to quotation)",
+    "Suggested route planning",
+    "Flexible sightseeing time"
+  ],
+  "exclusions": [
+    "Hotels unless confirmed in writing",
+    "Entry tickets",
+    "Meals unless agreed"
+  ],
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Day 1: Explore at your pace",
+      "description": "A flexible travel day with suggested scenic and cultural stops. Final timings and inclusions are confirmed with your quotation."
+    },
+    {
+      "day": 2,
+      "title": "Day 2: Explore at your pace",
+      "description": "A flexible travel day with suggested scenic and cultural stops. Final timings and inclusions are confirmed with your quotation."
+    },
+    {
+      "day": 3,
+      "title": "Day 3: Explore at your pace",
+      "description": "A flexible travel day with suggested scenic and cultural stops. Final timings and inclusions are confirmed with your quotation."
+    },
+    {
+      "day": 4,
+      "title": "Day 4: Explore at your pace",
+      "description": "A flexible travel day with suggested scenic and cultural stops. Final timings and inclusions are confirmed with your quotation."
+    }
+  ],
+  "featured": false,
+  "sample": true
+}

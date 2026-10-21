@@ -1,0 +1,5 @@
+---
+import {reviews} from '../../lib/data';
+import ReviewCard from '../ReviewCard.astro';
+---
+<section class="section section-sand" id="guest-stories"><div class="container"><div class="section-head-row"><div><span class="eyebrow">GUEST STORIES</span><h2>Little words, <span class="colour-text">big smiles.</span></h2><p class="demo-inline">The cards below are design-only sample testimonials—not actual customer feedback.</p></div><a class="text-arrow" href="/reviews">About reviews ↗</a></div><div class="review-grid">{reviews.items.map(review=><ReviewCard review={review}/>)}</div></div></section>

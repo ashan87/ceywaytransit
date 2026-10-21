@@ -1,0 +1,38 @@
+{
+  "disclaimer": "DEMO REVIEWS — placeholders only, not verified guest testimonials. Remove or replace before publishing.",
+  "items": [
+    {
+      "id": "sample-1",
+      "name": "Sample Traveller A",
+      "country": "Demo / Example",
+      "rating": 5,
+      "quote": "This is placeholder review copy illustrating the card design. Replace with a genuine, permission-based testimonial.",
+      "date": null,
+      "sourceId": "direct",
+      "verified": false,
+      "photo": null
+    },
+    {
+      "id": "sample-2",
+      "name": "Sample Traveller B",
+      "country": "Demo / Example",
+      "rating": 5,
+      "quote": "Example testimonial only — not a real customer statement.",
+      "date": null,
+      "sourceId": "direct",
+      "verified": false,
+      "photo": null
+    },
+    {
+      "id": "sample-3",
+      "name": "Sample Traveller C",
+      "country": "Demo / Example",
+      "rating": 5,
+      "quote": "Beautiful travel memories begin with thoughtful planning. This text is a design placeholder.",
+      "date": null,
+      "sourceId": "direct",
+      "verified": false,
+      "photo": null
+    }
+  ]
+}

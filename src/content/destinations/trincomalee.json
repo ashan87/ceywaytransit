@@ -1,0 +1,23 @@
+{
+  "id": "trincomalee",
+  "slug": "trincomalee",
+  "title": "Trincomalee",
+  "region": "East Coast",
+  "shortDescription": "Clear blue bays, welcoming beaches and sunny adventures.",
+  "description": "Clear blue bays, welcoming beaches and sunny adventures. Discover experiences at your own pace with flexible chauffeured travel and time to enjoy the little moments.",
+  "image": "/images/destinations/trincomalee/cover.svg",
+  "imageAlt": "Sample destination image for Trincomalee",
+  "themes": [
+    "beach",
+    "honeymoon",
+    "family"
+  ],
+  "highlights": [
+    "Nilaveli",
+    "Pigeon Island area",
+    "East coast bays"
+  ],
+  "bestTime": "May–September often popular",
+  "featured": false,
+  "sample": true
+}

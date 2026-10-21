@@ -1,0 +1,9 @@
+:root{
+ --lagoon:#03a9a5; --lagoon-deep:#087c83; --ocean:#0c4553; --ink:#173b4a;
+ --coral:#fd6c56; --coral-dark:#eb553e; --mango:#ffca5e; --mango-soft:#fff0b9;
+ --palm:#228d6c; --mint:#e9f9f4; --sand:#fff8eb; --cream:#fffcf6;
+ --white:#fff; --muted:#64767c; --line:#d9e9e6;
+ --font:'Avenir Next','Trebuchet MS','Segoe UI',sans-serif;
+ --font-heading:'Avenir Next','Trebuchet MS','Segoe UI',sans-serif;
+ --radius:24px;--shadow:0 15px 42px rgba(19,80,82,.11);
+}

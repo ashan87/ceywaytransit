@@ -1,0 +1,37 @@
+{
+  "nav": {
+    "plan": "Plan my trip",
+    "home": "Home",
+    "packages": "Packages",
+    "destinations": "Destinations",
+    "contact": "Contact us"
+  },
+  "buttons": {
+    "explore": "Explore tours",
+    "viewDetails": "View details",
+    "requestQuote": "Ask for a quote",
+    "seeAll": "See them all",
+    "startPlanning": "Start planning",
+    "readStory": "Read story",
+    "back": "Back",
+    "next": "Next",
+    "send": "Send on WhatsApp"
+  },
+  "labels": {
+    "from": "From",
+    "days": "Days",
+    "guests": "Travellers",
+    "themes": "Travel styles",
+    "allThemes": "All styles",
+    "sort": "Sort by",
+    "search": "Search tours",
+    "sample": "Sample content",
+    "noPrice": "Custom quote",
+    "readTime": "min read",
+    "faq": "Frequently asked questions"
+  },
+  "notices": {
+    "demo": "Demo content — replace sample packages, images and reviews before launch.",
+    "noResults": "No journeys match your filters yet. Try another style."
+  }
+}
