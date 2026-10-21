@@ -1,4 +1,0 @@
----
-import {steps} from '../lib/data';
----
-<div class="steps-grid">{steps.map(step=><article class="step-item"><span class="step-number">{String(step.number).padStart(2,'0')}</span><span class="step-emoji" aria-hidden="true">{step.icon==='sun'?'☀️':step.icon==='message'?'💬':step.icon==='map'?'🗺️':'🌴'}</span><h3>{step.title}</h3><p>{step.description}</p></article>)}</div>

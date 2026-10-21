@@ -1,5 +1,0 @@
----
-import {stats} from '../lib/data';
-const checked=stats.items.filter(s=>s.verified&&s.value!==null&&s.asOf);
----
-{checked.length ? <div class="stats-bar">{checked.map(stat=><div class="stat-item"><strong>{stat.value}{stat.suffix}</strong><span>{stat.label}</span><small>As of {stat.asOf}</small></div>)}</div> : <div class="values-ribbon" aria-label="CEYWAY travel highlights"><span>☀️ Sunshine state of mind</span><span>🌿 Island-inspired experiences</span><span>🐚 Travel at your own pace</span></div>}
