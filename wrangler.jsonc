@@ -24,12 +24,6 @@
   ],
   "vars": {
     "TURNSTILE_SECRET_KEY": "0x4AAAAAAFfJdrXjVGgERzJX"
-  },
-    {
-  
-  "vars": {
-    "TURNSTILE_SITE_KEY": "Variable"
-  },
-  
-}
+  }
+   
 }
