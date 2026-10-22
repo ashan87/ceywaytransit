@@ -25,7 +25,9 @@
     {
       // ...
       "vars": {
-        "TURNSTILE_SITE_KEY": "0x4AAAAAAFfJdrXjVGgERzJX"
+        "EMAIL_FROM": "CEYWAY TRANSIT <onboarding@resend.dev>",
+        "TURNSTILE_SITE_KEY": "0x4AAAAAAFfJdrXjVGgERzJX"       
+
     },
         // ...
     }
