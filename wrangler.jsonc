@@ -1,4 +1,3 @@
-
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "ceywaytransit1",
@@ -22,15 +21,12 @@
       "migrations_dir": "migrations"
     }
   ],
-    {
-      // ...
-      "vars": {
-        "EMAIL_FROM": "CEYWAY TRANSIT <onboarding@resend.dev>",
-        "TURNSTILE_SITE_KEY": "0x4AAAAAAFfJdrXjVGgERzJX"       
-
-    },
-        // ...
-    }
-    
-   
+  "vars": {
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAFfJdrXjVGgERzJX"
+  },
+  "triggers": {
+    "crons": [
+      "*/5 * * * *"
+    ]
+  }
 }
