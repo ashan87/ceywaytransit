@@ -1,0 +1,144 @@
+---
+import {wizard,site} from '../lib/data';
+---
+<section class="wizard-card" aria-labelledby="wizard-title" id="trip-wizard" data-whatsapp={site.whatsapp}>
+  <div class="wizard-intro"><span class="eyebrow">YOUR NEXT CHAPTER ✦</span><h2 id="wizard-title">{wizard.title}</h2><p>{wizard.intro}</p></div>
+  <div class="wizard-progress"><span id="wizard-step-label" aria-live="polite">Step 1 of {wizard.steps.length+1}</span><div class="wizard-progress-track"><span id="wizard-progress-fill"></span></div></div>
+  <form id="wizard-form" novalidate>
+    {wizard.steps.map((step,i)=><fieldset class="wizard-field" data-step={i} hidden={i!==0}>
+      <legend><strong>{step.title}</strong><span>{step.description}</span></legend>
+      {step.type==='multi'&&<div class="wizard-options">{step.options.map(opt=><label class="wizard-option"><input name="style" type="checkbox" value={opt.value}/><span>{opt.emoji} {opt.label}</span></label>)}</div>}
+      {step.type==='date'&&<label class="wizard-label">Approximate travel date<input name="date" type="date" aria-describedby="trip-date-help" /><small id="trip-date-help">Please choose a future date. Past dates and today are not available.</small></label>}
+      {step.type==='number'&&<label class="wizard-label">Number of travellers<input name="people" type="number" min="1" max="40" inputmode="numeric" value="2" required /></label>}
+      {step.type==='textarea'&&<label class="wizard-label">Your dream trip<textarea name="message" rows="5" maxlength="1200" placeholder="Tell us your destinations, travel style and questions…"></textarea></label>}
+    </fieldset>)}
+    <fieldset class="wizard-field" data-step={wizard.steps.length} hidden>
+      <legend><strong>How should we contact you?</strong><span>We'll use these details only to discuss your Sri Lanka holiday.</span></legend>
+      <label class="wizard-label">Full name *<input type="text" name="name" autocomplete="name" maxlength="100" required /></label>
+      <label class="wizard-label">Email address *<input type="email" name="email" autocomplete="email" inputmode="email" spellcheck="false" maxlength="180" required /><small>Enter a valid email address so we can reply to your enquiry.</small></label>
+      <label class="wizard-label">WhatsApp / phone (optional)<input type="tel" name="phone" autocomplete="tel" maxlength="40" /></label>
+      <input type="text" name="website" class="enquiry-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <label class="enquiry-consent"><input type="checkbox" name="consent" required /> I agree to be contacted about my enquiry. See <a href="/privacy/">Privacy Policy</a>.</label>
+      <div id="wizard-turnstile" class="enquiry-turnstile"></div>
+    </fieldset>
+    <p class="wizard-error" id="wizard-error" role="alert" hidden></p>
+    <div class="wizard-actions"><button type="button" class="button button-outline" id="wizard-back" hidden>← Back</button><button class="button button-coral" type="button" id="wizard-next">Continue →</button><button class="button button-coral" type="submit" id="wizard-send" hidden>Send enquiry securely ↗</button></div>
+  </form>
+  <p class="enquiry-feedback" id="wizard-status" role="status" aria-live="polite" hidden></p>
+  <p class="wizard-note">🔒 No online payment required. We will contact you to discuss options. <button id="wizard-whatsapp" type="button" class="wizard-whatsapp-link">Prefer WhatsApp? ↗</button></p>
+</section>
+<script>
+ import {prepareVerification,postEnquiry,messageIn} from '../lib/enquiry-client';
+ const root=document.getElementById('trip-wizard');
+ if(root){
+  const form=root.querySelector<HTMLFormElement>('form')!;
+  const fields=Array.from(form.querySelectorAll<HTMLFieldSetElement>('[data-step]'));
+  const next=root.querySelector<HTMLButtonElement>('#wizard-next')!;
+  const back=root.querySelector<HTMLButtonElement>('#wizard-back')!;
+  const send=root.querySelector<HTMLButtonElement>('#wizard-send')!;
+  const error=root.querySelector<HTMLElement>('#wizard-error')!;
+  const status=root.querySelector<HTMLElement>('#wizard-status')!;
+  const fill=root.querySelector<HTMLElement>('#wizard-progress-fill')!;
+  const label=root.querySelector<HTMLElement>('#wizard-step-label')!;
+  const travelDateInput=form.querySelector<HTMLInputElement>('input[name="date"]');
+  const emailInput=form.querySelector<HTMLInputElement>('input[name="email"]')!;
+  const emailPattern=/^[A-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?(?:\.[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?)+$/i;
+  function validEmail(email:string):boolean {
+   if(!email||email.length>180||email.includes('..'))return false;
+   const at=email.indexOf('@');
+   return at>0&&at===email.lastIndexOf('@')&&at<=64&&!email.startsWith('.')&&!email.slice(0,at).endsWith('.')&&email.slice(at+1).length<=253&&emailPattern.test(email);
+  }
+  function validateEmail():boolean {
+   emailInput.value=emailInput.value.trim();
+   emailInput.setCustomValidity('');
+   // Native validation catches missing values; this also catches malformed domains.
+   if(emailInput.value&&!validEmail(emailInput.value))emailInput.setCustomValidity('Please enter a valid email address, such as name@example.com.');
+   return emailInput.reportValidity();
+  }
+  emailInput.addEventListener('input',()=>emailInput.setCustomValidity(''));
+
+  // Use Sri Lanka's calendar date, since every tour takes place in Sri Lanka.
+  function todaySriLanka():string {
+   const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Colombo',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+   const part=(kind:string)=>parts.find(item=>item.type===kind)?.value ?? '';
+   return `${part('year')}-${part('month')}-${part('day')}`;
+  }
+  function updateDateMinimum():string {
+   const today=todaySriLanka();
+   const tomorrow=new Date(`${today}T00:00:00.000Z`);
+   tomorrow.setUTCDate(tomorrow.getUTCDate()+1);
+   const earliest=tomorrow.toISOString().slice(0,10);
+   if(travelDateInput)travelDateInput.min=earliest;
+   return earliest;
+  }
+  function validateDate():boolean {
+   if(!travelDateInput)return true;
+   const earliest=updateDateMinimum();
+   travelDateInput.setCustomValidity('');
+   // Flexible/undecided travel dates are still allowed.
+   if(!travelDateInput.value)return true;
+   if(travelDateInput.value < earliest) {
+    const msg='Please select a future travel date (tomorrow or later).';
+    travelDateInput.setCustomValidity(msg);
+    error.textContent=msg;
+    error.hidden=false;
+    travelDateInput.reportValidity();
+    return false;
+   }
+   if(!travelDateInput.checkValidity()) {
+    error.textContent='Please enter a valid travel date.';
+    error.hidden=false;
+    travelDateInput.reportValidity();
+    return false;
+   }
+   return true;
+  }
+  travelDateInput?.addEventListener('change',()=>{
+   travelDateInput.setCustomValidity('');
+   if(!error.hidden && error.textContent?.includes('travel date'))error.hidden=true;
+  });
+  updateDateMinimum();
+  let security:ReturnType<typeof prepareVerification>|null=null;
+  let at=0;
+  function render(){updateDateMinimum();fields.forEach((f,i)=>f.hidden=i!==at);back.hidden=at===0;next.hidden=at===fields.length-1;send.hidden=at!==fields.length-1;label.textContent=`Step ${at+1} of ${fields.length}`;fill.style.width=`${(at+1)/fields.length*100}%`;error.hidden=true;if(at===fields.length-1&&!security)security=prepareVerification(root.querySelector<HTMLElement>('#wizard-turnstile')!);}
+  function valid(){
+   const field=fields[at];
+   if((field.querySelector('[name="date"]')||at===fields.length-1)&&!validateDate())return false;
+   if(field.querySelector('[name="people"]')){
+    const input=field.querySelector<HTMLInputElement>('[name="people"]')!;
+    if(!input.value||Number(input.value)<1||Number(input.value)>40){error.textContent='Please enter between 1 and 40 travellers.';error.hidden=false;return false;}
+   }
+   if(at===fields.length-1){
+    for(const input of field.querySelectorAll<HTMLInputElement>('input[required]')){
+     if(input===emailInput){if(!validateEmail())return false;}
+     else if(!input.reportValidity())return false;
+    }
+   }
+   return true;
+  }
+  next.addEventListener('click',()=>{if(valid()&&at<fields.length-1){at++;render();}});
+  back.addEventListener('click',()=>{if(at>0){at--;render();}});
+  function whatsapp(){
+   if(!validateDate()){if(at!==1){at=1;render();validateDate();}return;}
+   const data=new FormData(form);
+   const styles=data.getAll('style').map(String).join(', ')||'Please advise';
+   const msg=`Hello CEYWAY TRANSIT! 🌴\nI'd like a Sri Lanka travel quote.\nName: ${data.get('name')||''}\nEmail: ${data.get('email')||''}\nTravel style: ${styles}\nTravel date: ${data.get('date')||'Flexible'}\nTravellers: ${data.get('people')||'Not specified'}\nNotes: ${data.get('message')||'No additional notes'}\nPlease let me know the next steps.`;
+   window.open(`https://wa.me/${root.dataset.whatsapp}?text=${encodeURIComponent(msg)}`,'_blank','noopener,noreferrer');
+  }
+  root.querySelector<HTMLButtonElement>('#wizard-whatsapp')?.addEventListener('click',whatsapp);
+  form.addEventListener('submit',async(event)=>{
+   event.preventDefault();if(!valid())return;
+   const v=await (security??prepareVerification(root.querySelector<HTMLElement>('#wizard-turnstile')!));
+   if(!v.enabled)return messageIn(status,'Online enquiries are not enabled yet. Please use the WhatsApp option below.',true);
+   const token=v.getToken();if(!token)return messageIn(status,'Please complete the security check first.',true);
+   const data=new FormData(form);send.disabled=true;send.textContent='Sending…';
+   try{
+    const result=await postEnquiry({type:'trip',name:data.get('name'),email:data.get('email'),phone:data.get('phone'),message:String(data.get('message')||'Please advise on my Sri Lanka itinerary.'),interests:data.getAll('style'),travelDate:data.get('date'),travellers:data.get('people'),website:data.get('website'),consent:data.get('consent')!==null,turnstileToken:token});
+    if(!result.ok)throw new Error(result.error||'Unable to save your trip request.');
+    v.reset();messageIn(status,'Thank you! Your trip request is saved. Our team will contact you shortly.');
+    send.disabled=true;send.textContent='Enquiry received ✓';
+   }catch(err){v.reset();messageIn(status,(err instanceof Error?err.message:'Network error.')+' Please try WhatsApp instead.',true);send.disabled=false;send.textContent='Send enquiry securely ↗';}
+  });
+  render();
+ }
+</script>
