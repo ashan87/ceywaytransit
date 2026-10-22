@@ -22,8 +22,10 @@
       "migrations_dir": "migrations"
     }
   ],
-  "vars": {
-    "TURNSTILE_SECRET_KEY": "0x4AAAAAAFfJdrXjVGgERzJX"
-  }
+    {
+  // ...
+  "vars": {},
+  // ...
+}
    
 }
