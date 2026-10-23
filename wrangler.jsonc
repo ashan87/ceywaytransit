@@ -23,7 +23,8 @@
   ],
   "vars": {
     "EMAIL_FROM": "CEYWAY TRANSIT <onboarding@resend.dev>",
-    "TURNSTILE_SITE_KEY": "0x4AAAAAAFfJdrXjVGgERzJX"
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAFfJdrXjVGgERzJX",
+    "GMAIL_ACK_WEBAPP_URL": "https://script.google.com/macros/s/AKfycbxQmIrvfFhWT60lY3z0-Cy0JWxV_IXV960-6SvHfUeESwRLQehZuR2wf-wM6kAf0TK1/exec"
   },
   "triggers": {
     "crons": [
