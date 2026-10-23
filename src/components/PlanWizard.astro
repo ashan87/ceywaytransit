@@ -1,0 +1,210 @@
+---
+import {wizard,site} from '../lib/data';
+---
+<section class="wizard-card" aria-labelledby="wizard-title" id="trip-wizard" data-whatsapp={site.whatsapp}>
+  <div class="wizard-intro"><span class="eyebrow">YOUR NEXT CHAPTER ✦</span><h2 id="wizard-title">{wizard.title}</h2><p>{wizard.intro}</p></div>
+  <div class="wizard-progress"><span id="wizard-step-label" aria-live="polite">Step 1 of {wizard.steps.length+1}</span><div class="wizard-progress-track"><span id="wizard-progress-fill"></span></div></div>
+  <form id="wizard-form" novalidate>
+    {wizard.steps.map((step,i)=><fieldset class="wizard-field" data-step={i} hidden={i!==0}>
+      <legend><strong>{step.title}</strong><span>{step.description}</span></legend>
+      {step.type==='multi'&&<div class="wizard-options">{step.options.map(opt=><label class="wizard-option"><input name="style" type="checkbox" value={opt.value}/><span>{opt.emoji} {opt.label}</span></label>)}</div>}
+      {step.type==='date'&&<label class="wizard-label">Approximate travel date<input name="date" type="date" aria-describedby="trip-date-help" /><small id="trip-date-help">Please choose a future date. Past dates and today are not available.</small></label>}
+      {step.type==='number'&&<div class="guest-picker" aria-label="Select adults and children">
+       <div class="guest-picker-row"><div class="guest-picker-label"><strong>Adults</strong><small>18 years and above · Minimum 1</small></div><div class="guest-stepper"><button type="button" data-guest="adults" data-change="-1" aria-label="Remove one adult">−</button><input name="adults" type="number" min="1" max="40" value="2" readonly aria-label="Number of adults" /><button type="button" data-guest="adults" data-change="1" aria-label="Add one adult">+</button></div></div>
+       <div class="guest-picker-row"><div class="guest-picker-label"><strong>Children</strong><small>Under 18 years · Select 0 if none</small></div><div class="guest-stepper"><button type="button" data-guest="children" data-change="-1" aria-label="Remove one child">−</button><input name="children" type="number" min="0" max="39" value="0" readonly aria-label="Number of children" /><button type="button" data-guest="children" data-change="1" aria-label="Add one child">+</button></div></div>
+       <p class="guest-total" id="guest-total" role="status" aria-live="polite">2 travellers in total</p><input type="hidden" name="people" value="2" />
+      </div>}
+      {step.type==='textarea'&&<label class="wizard-label">Your dream trip<textarea name="message" rows="5" maxlength="1200" placeholder="Tell us your destinations, travel style and questions…"></textarea></label>}
+    </fieldset>)}
+    <fieldset class="wizard-field" data-step={wizard.steps.length} hidden>
+      <legend><strong>How should we contact you?</strong><span>We'll use these details only to discuss your Sri Lanka holiday.</span></legend>
+      <label class="wizard-label">Full name *<input type="text" name="name" autocomplete="name" maxlength="100" required /></label>
+      <label class="wizard-label">Email address *<input type="email" name="email" autocomplete="email" inputmode="email" spellcheck="false" maxlength="180" required /><small id="trip-email-hint" aria-live="polite">Enter a valid email address so we can reply to your enquiry.</small><button id="trip-email-correct" type="button" class="text-arrow" hidden></button></label>
+      <label class="wizard-label">WhatsApp / phone (optional)<input type="tel" name="phone" autocomplete="tel" maxlength="40" /></label>
+      <input type="text" name="website" class="enquiry-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <label class="enquiry-consent"><input type="checkbox" name="consent" required /> I agree to be contacted about my enquiry. See <a href="/privacy/">Privacy Policy</a>.</label>
+      <div id="wizard-turnstile" class="enquiry-turnstile"></div>
+    </fieldset>
+    <p class="wizard-error" id="wizard-error" role="alert" hidden></p>
+    <div class="wizard-actions"><button type="button" class="button button-outline" id="wizard-back" hidden>← Back</button><button class="button button-coral" type="button" id="wizard-next">Continue →</button><button class="button button-coral" type="submit" id="wizard-send" hidden>Send enquiry securely ↗</button></div>
+  </form>
+  <p class="enquiry-feedback" id="wizard-status" role="status" aria-live="polite" hidden></p>
+  <p class="wizard-note">🔒 No online payment required. We will contact you to discuss options. <button id="wizard-whatsapp" type="button" class="wizard-whatsapp-link">Prefer WhatsApp? ↗</button></p>
+</section>
+<script>
+ import {prepareVerification,postEnquiry,messageIn} from '../lib/enquiry-client';
+ import {checkEmailProvider} from '../lib/email-provider';
+ const root=document.getElementById('trip-wizard');
+ if(root){
+  const form=root.querySelector<HTMLFormElement>('form')!;
+  const fields=Array.from(form.querySelectorAll<HTMLFieldSetElement>('[data-step]'));
+  const next=root.querySelector<HTMLButtonElement>('#wizard-next')!;
+  const back=root.querySelector<HTMLButtonElement>('#wizard-back')!;
+  const send=root.querySelector<HTMLButtonElement>('#wizard-send')!;
+  const error=root.querySelector<HTMLElement>('#wizard-error')!;
+  const status=root.querySelector<HTMLElement>('#wizard-status')!;
+  const fill=root.querySelector<HTMLElement>('#wizard-progress-fill')!;
+  const label=root.querySelector<HTMLElement>('#wizard-step-label')!;
+  const travelDateInput=form.querySelector<HTMLInputElement>('input[name="date"]');
+  const adultInput=form.querySelector<HTMLInputElement>('input[name="adults"]');
+  const childInput=form.querySelector<HTMLInputElement>('input[name="children"]');
+  const totalInput=form.querySelector<HTMLInputElement>('input[name="people"]');
+  const guestTotal=root.querySelector<HTMLElement>('#guest-total');
+  const guestButtons=Array.from(root.querySelectorAll<HTMLButtonElement>('[data-guest][data-change]'));
+  function guestCounts(){return {adults:Number(adultInput?.value||0),children:Number(childInput?.value||0)};}
+  function updateGuestDisplay(){
+   if(!adultInput||!childInput||!totalInput)return;
+   const {adults,children}=guestCounts(),total=adults+children;
+   totalInput.value=String(total);
+   if(guestTotal)guestTotal.textContent=`${total} traveller${total===1?'':'s'} in total`;
+   for(const button of guestButtons){
+    const key=button.dataset.guest as 'adults'|'children';
+    const n=key==='adults'?adults:children;
+    const delta=Number(button.dataset.change);
+    button.disabled=delta<0?(key==='adults'?n<=1:n<=0):total>=40;
+   }
+  }
+  for(const button of guestButtons)button.addEventListener('click',()=>{
+   if(!adultInput||!childInput)return;
+   const input=button.dataset.guest==='adults'?adultInput:childInput;
+   const {adults,children}=guestCounts();
+   const next=Number(input.value)+Number(button.dataset.change);
+   if(next<(input===adultInput?1:0)||next>40||adults+children+Number(button.dataset.change)>40)return;
+   input.value=String(next);updateGuestDisplay();error.hidden=true;
+  });
+  updateGuestDisplay();
+  const emailInput=form.querySelector<HTMLInputElement>('input[name="email"]')!;
+  const emailHint=root.querySelector<HTMLElement>('#trip-email-hint')!;
+  const emailCorrect=root.querySelector<HTMLButtonElement>('#trip-email-correct')!;
+  const emailHintDefault='Enter a valid email address so we can reply to your enquiry.';
+  function updateEmailHint():void {
+   const check=checkEmailProvider(emailInput.value);
+   emailCorrect.hidden=true;
+   if(check.suggestion){
+    emailHint.textContent=check.message||'Check the email provider spelling.';
+    emailCorrect.textContent=`Use ${check.suggestion} instead`;
+    emailCorrect.hidden=false;
+   }else if(!emailInput.value.trim())emailHint.textContent=emailHintDefault;
+   else if(check.valid)emailHint.textContent=check.recognisedProvider?'Recognised email provider.':'Business and other email providers are welcome.';
+   else emailHint.textContent=check.message||emailHintDefault;
+  }
+  function validateEmail():boolean {
+   emailInput.value=emailInput.value.trim();
+   emailInput.setCustomValidity('');
+   const check=checkEmailProvider(emailInput.value);
+   if(!check.valid)emailInput.setCustomValidity(check.message||'Please enter a valid email address.');
+   updateEmailHint();
+   return emailInput.reportValidity();
+  }
+  emailInput.addEventListener('input',()=>{emailInput.setCustomValidity('');updateEmailHint();});
+  emailInput.addEventListener('blur',updateEmailHint);
+  emailCorrect.addEventListener('click',()=>{
+   const check=checkEmailProvider(emailInput.value);
+   if(check.suggestion){emailInput.value=check.suggestion;emailInput.setCustomValidity('');updateEmailHint();emailInput.focus();}
+  });
+
+  // Use Sri Lanka's calendar date, since every tour takes place in Sri Lanka.
+  function todaySriLanka():string {
+   const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Colombo',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+   const part=(kind:string)=>parts.find(item=>item.type===kind)?.value ?? '';
+   return `${part('year')}-${part('month')}-${part('day')}`;
+  }
+  function updateDateMinimum():string {
+   const today=todaySriLanka();
+   const tomorrow=new Date(`${today}T00:00:00.000Z`);
+   tomorrow.setUTCDate(tomorrow.getUTCDate()+1);
+   const earliest=tomorrow.toISOString().slice(0,10);
+   if(travelDateInput)travelDateInput.min=earliest;
+   return earliest;
+  }
+  function validateDate():boolean {
+   if(!travelDateInput)return true;
+   const earliest=updateDateMinimum();
+   travelDateInput.setCustomValidity('');
+   // Flexible/undecided travel dates are still allowed.
+   if(!travelDateInput.value)return true;
+   if(travelDateInput.value < earliest) {
+    const msg='Please select a future travel date (tomorrow or later).';
+    travelDateInput.setCustomValidity(msg);
+    error.textContent=msg;
+    error.hidden=false;
+    travelDateInput.reportValidity();
+    return false;
+   }
+   if(!travelDateInput.checkValidity()) {
+    error.textContent='Please enter a valid travel date.';
+    error.hidden=false;
+    travelDateInput.reportValidity();
+    return false;
+   }
+   return true;
+  }
+  travelDateInput?.addEventListener('change',()=>{
+   travelDateInput.setCustomValidity('');
+   if(!error.hidden && error.textContent?.includes('travel date'))error.hidden=true;
+  });
+  updateDateMinimum();
+  let security:ReturnType<typeof prepareVerification>|null=null;
+  let at=0;
+  function render(){updateDateMinimum();fields.forEach((f,i)=>f.hidden=i!==at);back.hidden=at===0;next.hidden=at===fields.length-1;send.hidden=at!==fields.length-1;label.textContent=`Step ${at+1} of ${fields.length}`;fill.style.width=`${(at+1)/fields.length*100}%`;error.hidden=true;if(at===fields.length-1&&!security)security=prepareVerification(root.querySelector<HTMLElement>('#wizard-turnstile')!);}
+  function valid(){
+   const field=fields[at];
+   if((field.querySelector('[name="date"]')||at===fields.length-1)&&!validateDate())return false;
+   if(field.querySelector('[name="people"]')){
+    const {adults,children}=guestCounts();
+    if(!Number.isInteger(adults)||!Number.isInteger(children)||adults<1||children<0||adults+children>40){
+     error.textContent='Please select at least 1 adult and a maximum of 40 guests in total.';error.hidden=false;return false;
+    }
+    updateGuestDisplay();
+   }
+   if(at===fields.length-1){
+    for(const input of field.querySelectorAll<HTMLInputElement>('input[required]')){
+     if(input===emailInput){if(!validateEmail())return false;}
+     else if(!input.reportValidity())return false;
+    }
+   }
+   return true;
+  }
+  next.addEventListener('click',()=>{if(valid()&&at<fields.length-1){at++;render();}});
+  back.addEventListener('click',()=>{if(at>0){at--;render();}});
+  function whatsapp(){
+   if(!validateDate()){if(at!==1){at=1;render();validateDate();}return;}
+   const data=new FormData(form);
+   const styles=data.getAll('style').map(String).join(', ')||'Please advise';
+   const msg=`Hello CEYWAY TRANSIT! 🌴\nI'd like a Sri Lanka travel quote.\nName: ${data.get('name')||''}\nEmail: ${data.get('email')||''}\nTravel style: ${styles}\nTravel date: ${data.get('date')||'Flexible'}\nAdults: ${data.get('adults')||'Not specified'}\nChildren: ${data.get('children')||'0'}\nTotal travellers: ${data.get('people')||'Not specified'}\nNotes: ${data.get('message')||'No additional notes'}\nPlease let me know the next steps.`;
+   window.open(`https://wa.me/${root.dataset.whatsapp}?text=${encodeURIComponent(msg)}`,'_blank','noopener,noreferrer');
+  }
+  root.querySelector<HTMLButtonElement>('#wizard-whatsapp')?.addEventListener('click',whatsapp);
+  form.addEventListener('submit',async(event)=>{
+   event.preventDefault();if(!valid())return;
+   const v=await (security??prepareVerification(root.querySelector<HTMLElement>('#wizard-turnstile')!));
+   if(!v.enabled)return messageIn(status,'Online enquiries are not enabled yet. Please use the WhatsApp option below.',true);
+   const token=v.getToken();if(!token)return messageIn(status,'Please complete the security check first.',true);
+   const data=new FormData(form);send.disabled=true;send.textContent='Sending…';
+   try{
+    const result=await postEnquiry({type:'trip',name:data.get('name'),email:data.get('email'),phone:data.get('phone'),message:String(data.get('message')||'Please advise on my Sri Lanka itinerary.'),interests:data.getAll('style'),travelDate:data.get('date'),travellers:data.get('people'),adults:data.get('adults'),children:data.get('children'),website:data.get('website'),consent:data.get('consent')!==null,turnstileToken:token});
+    if(!result.ok)throw new Error(result.error||'Unable to save your trip request.');
+    v.reset();messageIn(status,'Thank you! Your trip request is saved. Our team will contact you shortly.');
+    send.disabled=true;send.textContent='Enquiry received ✓';
+   }catch(err){v.reset();messageIn(status,(err instanceof Error?err.message:'Network error.')+' Please try WhatsApp instead.',true);send.disabled=false;send.textContent='Send enquiry securely ↗';}
+  });
+  render();
+ }
+</script>
+
+<style>
+ .guest-picker{display:grid;gap:16px;max-width:540px}
+ .guest-picker-row{display:flex;align-items:center;justify-content:space-between;gap:14px;background:#fff;border:1px solid #d8e9e2;border-radius:17px;padding:16px 18px}
+ .guest-picker-label{display:grid;gap:3px;min-width:0}
+ .guest-picker-label strong{font-size:1.02rem;color:#124e55}
+ .guest-picker-label small{font-size:.74rem;color:#607a7a;line-height:1.4}
+ .guest-stepper{display:flex;align-items:center;gap:10px;flex-shrink:0}
+ .guest-stepper button{width:41px;height:41px;display:grid;place-items:center;border:1px solid #90d8c6;border-radius:50%;background:#e8f9f3;color:#075c62;font-size:1.5rem;font-weight:800;line-height:1;cursor:pointer;transition:background .15s,transform .15s}
+ .guest-stepper button:hover:not(:disabled){background:#c1f0df;transform:scale(1.04)}
+ .guest-stepper button:focus-visible{outline:3px solid #ff836c;outline-offset:2px}
+ .guest-stepper button:disabled{background:#f5f6f6;color:#a6b4b5;border-color:#e1e6e6;cursor:not-allowed}
+ .guest-stepper input{width:2.25rem;min-width:2.25rem;padding:0;text-align:center;border:0;background:transparent;color:#124e55;font-size:1.12rem;font-weight:900;appearance:textfield;-moz-appearance:textfield}
+ .guest-stepper input::-webkit-inner-spin-button,.guest-stepper input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+ .guest-total{margin:0;border-radius:12px;background:#e7f8f0;color:#075c62;padding:11px 17px;font-size:.88rem;font-weight:850}
+ @media(max-width:420px){.guest-picker-row{padding:12px;gap:7px}.guest-stepper{gap:5px}.guest-stepper button{width:35px;height:35px}.guest-picker-label small{font-size:.68rem}}
+</style>
