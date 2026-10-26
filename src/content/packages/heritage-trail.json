@@ -23,7 +23,7 @@
     "Local culture",
     "Ancient stories"
   ],
-  "priceFrom": 250,
+  "priceFrom": 250/person,
   "currency": "USD",
   "inclusions": [
     "Private vehicle with driver (subject to quotation)",
