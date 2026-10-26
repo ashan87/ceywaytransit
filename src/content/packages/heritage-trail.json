@@ -1,3 +1,4 @@
+
 {
   "id": "heritage-trail",
   "slug": "heritage-trail",
@@ -39,23 +40,23 @@
   "itinerary": [
     {
       "day": 1,
-      "title": "Day 1: Explore at your pace",
-      "description": "A flexible travel day with suggested scenic and cultural stops. Final timings and inclusions are confirmed with your quotation."
+      "title": "Day 1: Colombo to Sigiriya",
+      "description": "Begin your Sri Lankan heritage journey in Colombo before travelling towards Sigiriya. Enjoy the scenic countryside and, subject to your schedule, explore local cultural attractions."
     },
     {
       "day": 2,
-      "title": "Day 2: Explore at your pace",
-      "description": "A flexible travel day with suggested scenic and cultural stops. Final timings and inclusions are confirmed with your quotation."
+      "title": "Day 2: Discover Sigiriya",
+      "description": "Explore the Sigiriya area, famous for its ancient rock fortress, archaeological heritage and traditional village experiences. Entrance tickets and guided activities are subject to confirmation."
     },
     {
       "day": 3,
-      "title": "Day 3: Explore at your pace",
-      "description": "A flexible travel day with suggested scenic and cultural stops. Final timings and inclusions are confirmed with your quotation."
+      "title": "Day 3: Sigiriya to Kandy",
+      "description": "Travel towards Kandy with optional cultural and heritage stops along the way. Discover Kandy's historic atmosphere and visit the Temple of the Sacred Tooth Relic if included in your confirmed itinerary."
     },
     {
       "day": 4,
-      "title": "Day 4: Explore at your pace",
-      "description": "A flexible travel day with suggested scenic and cultural stops. Final timings and inclusions are confirmed with your quotation."
+      "title": "Day 4: Explore Kandy",
+      "description": "Enjoy a final day exploring Kandy's cultural landmarks and local surroundings before your onward journey or return transfer, as agreed in your quotation."
     }
   ],
   "featured": false,
